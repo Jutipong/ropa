@@ -87,7 +87,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Loading', 'Notify', 'Dialog', 'SessionStorage'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -126,9 +126,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Framework app`,
+        name: `Ropa`,
+        short_name: `Ropa`,
+        description: `Ropa`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

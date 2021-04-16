@@ -2,7 +2,7 @@
   "name": "ropa",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "productName": "Ropa App",
   "author": "T480s <techcom.ec20@gmail.com>",
   "private": true,
   "scripts": {
