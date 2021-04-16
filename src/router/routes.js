@@ -1,11 +1,11 @@
-
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       // { path: '', component: () => import('pages/Index.vue') },
-      { path: '', component: () => import('pages/question.vue') },
+      { path: '', component: () => import('pages/Question.vue') },
+      { path: 'test', component: () => import('pages/test.vue') },
     ],
   },
 
@@ -17,4 +17,4 @@ const routes = [
   },
 ];
 
-export default routes
+export default routes;
