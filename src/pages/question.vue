@@ -41,11 +41,7 @@
           </div> -->
 
           <div class="q-mr-md">
-            <q-option-group class="inline"
-              :options="options"
-              type="radio"
-              v-model="item.Result"
-            />
+            <q-option-group class="inline" :options="item.Answers" type="radio" v-model="item.Result" />
             <!-- <q-radio
               v-for="(item_answer, index_answer) in item.Answers"
               :key="index_answer"
