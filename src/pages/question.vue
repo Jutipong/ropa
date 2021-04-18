@@ -2,16 +2,7 @@
   <div class="q-pa-md">
     <!-- card -->
     <q-card class="q-ma-md" v-for="(item, index) in question.Questions" :key="index">
-      <!-- title -->
-      <!-- <q-card-section>
-        <u>
-          <div class="text-bold">คำถามข้อที่: {{ index + 1 }}</div></u
-        >
-      </q-card-section> -->
-      <!-- title detail -->
-
-      <!-- <q-separator inset /> -->
-
+      <!-- title question -->
       <q-card-section class="q-ml-md">
         <span>
           <div>
@@ -20,16 +11,16 @@
           </div>
         </span>
       </q-card-section>
-
       <!-- content -->
       <q-card-section class="q-pt-none q-ml-md">
-        <div class="row inline">
+        <div class="row">
           <div v-if="item.Type === null">
             <!-- radio -->
-            <q-option-group class="q-ml-sm" :options="item.Answers" type="radio" v-model="item.Result" />
+            <q-option-group class="q-ml-sm" :options="item.Answers" type="radio" v-model="item.Result"/>
           </div>
-          <div v-else>
-            dddd
+          <!-- input -->
+          <div class="full-width q-mb-sm" v-else>
+             <q-input class="q-ml-lg" outlined v-model="item.Result" dense/>
           </div>
         </div>
       </q-card-section>
@@ -47,7 +38,7 @@ export default {
     const color = ref('cyan');
     const { question } = state();
 
-    watch(question.Questions, (val) => {
+    watch(question.Questions.Result, (val) => {
       console.log(val);
     });
 
