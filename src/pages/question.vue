@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <!-- card -->
-    <CardComponent v-for="(item, index) in question.Questions" :key="item" :question="item" :index="index"></CardComponent>
+    <CardComponent v-for="(item, index) in questionsData.Questions" :key="item" :question="item" :index="index"></CardComponent>
     <!-- end card -->
   </div>
 </template>
@@ -16,8 +16,7 @@ export default {
     CardComponent,
   },
   setup() {
-    const color = ref('cyan');
-    const { question } = state();
+    const { questionsData } = state();
 
     // watch(question.Questions.Result, (val) => {
     //   console.log(val);
@@ -29,7 +28,7 @@ export default {
       { label: 'Picture uploaded', value: 'upload', color: 'red' },
     ]);
 
-    return { question, color, options };
+    return { questionsData, options };
   },
 };
 </script>
