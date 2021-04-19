@@ -7,7 +7,8 @@ let questions = {
       Expect: 3,
       Result: null,
       Type: null,
-      Referer: [1122],
+      IsDisable: false,
+      Referen: [1122],
       Answers: [
         { value: 1, label: '1234/25' },
         { value: 2, label: '5443/23' },
@@ -20,6 +21,7 @@ let questions = {
       Expect: null,
       Result: null,
       Type: 'input',
+      IsDisable: false,
     },
     {
       Id: 22,
@@ -27,7 +29,8 @@ let questions = {
       Expect: 2,
       Result: null,
       Type: null,
-      Referer: [2233],
+      IsDisable: false,
+      Referen: [2233],
       Answers: [
         { value: 1, label: 'สีแดง' },
         { value: 2, label: 'สำฟ้า' },

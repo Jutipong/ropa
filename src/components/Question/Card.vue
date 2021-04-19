@@ -14,11 +14,17 @@
       <div class="row">
         <div v-if="question.Type === null">
           <!-- radio -->
-          <q-option-group :disable="isDisabled" class="q-ml-sm" :options="question.Answers" type="radio" v-model="question.Result" />
+          <q-option-group
+            :disable="question.IsDisable"
+            class="q-ml-sm"
+            :options="question.Answers"
+            type="radio"
+            v-model="question.Result"
+          />
         </div>
         <!-- input -->
         <div class="full-width q-mb-sm" v-else>
-          <q-input :filled="isDisabled" :disable="isDisabled" class="q-ml-lg" outlined v-model="question.Result" dense />
+          <q-input :filled="question.IsDisable" :disable="question.IsDisable" class="q-ml-lg" outlined v-model="question.Result" dense />
         </div>
       </div>
     </q-card-section>
@@ -26,7 +32,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import action from '../../hook/Question/action';
 
 export default {
@@ -42,12 +48,22 @@ export default {
   },
   setup(props) {
     const { question, index } = props;
-    let { InitDisable } = action;
+    const { InitDisable, CheckCardDisable } = action;
     const isDisabled = ref(false);
 
     onMounted(() => {
-      isDisabled.value = InitDisable(question.Id);
+      //InitDisable
+      debugger;
+      question.Referen && InitDisable(question.Referen);
     });
+
+    watch(
+      () => question.Result,
+      (val) => {
+        debugger;
+        val && CheckCardDisable(question.Id);
+      }
+    );
 
     return { question, index, isDisabled };
   },

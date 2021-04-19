@@ -1,13 +1,13 @@
 <template>
   <div class="q-pa-md">
     <!-- card -->
-    <CardComponent v-for="(item, index) in questionsData.Questions" :key="item" :question="item" :index="index"></CardComponent>
+    <CardComponent v-for="(item, index) in store.Questions" :key="item" :question="item" :index="index"></CardComponent>
     <!-- end card -->
   </div>
 </template>
 
 <script>
-import state from '../hook/Question/store';
+import stateUse from '../hook/Question/store';
 import CardComponent from '../components/Question/Card';
 
 export default {
@@ -15,8 +15,8 @@ export default {
     CardComponent,
   },
   setup() {
-    const { questionsData } = state;
-    return { questionsData };
+    const { store } = stateUse;
+    return { store };
   },
 };
 </script>

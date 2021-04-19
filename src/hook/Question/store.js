@@ -1,14 +1,8 @@
 import { reactive } from 'vue';
 import questionsStore from '../MockData.js';
 
-const questionsData = reactive(questionsStore.questions);
+const store = reactive(questionsStore.questions);
 
 export default {
-  questionsData,
+  store,
 };
-
-// export function state() {
-//   return {
-//     questionsData,
-//   };
-// }
