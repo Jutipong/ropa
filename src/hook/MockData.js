@@ -27,6 +27,7 @@ let questions = {
       Expect: 2,
       Result: null,
       Type: null,
+      Referer: [2233],
       Answers: [
         { value: 1, label: 'สีแดง' },
         { value: 2, label: 'สำฟ้า' },
