@@ -1,7 +1,8 @@
 <template>
   <div class="q-pa-md">
     <div v-if="isLoading" class="row q-gutter-sm">
-      <q-spinner-clock color="primary" size="lg" />
+      <!-- Loading -->
+      <q-spinner-puff color="primary" size="lg" />
       <div class="q-pt-sm text-primary">กำลังโหลดข้อมูล</div>
     </div>
     <div v-else>
@@ -23,8 +24,8 @@ export default {
     CardComponent,
   },
   setup() {
-    const { GetQuestions } = actionUse;
     const { isLoading, store } = stateUse;
+    const { GetQuestions } = actionUse;
     onMounted(() => GetQuestions());
     return { store, isLoading };
   },
