@@ -3,8 +3,8 @@
     <!-- title question -->
     <q-card-section class="q-ml-md">
       <span>
-        <div>
-          <b class="q-mr-xs">ข้อที่: {{ index }}</b
+        <div :class="`${question.IsDisable ? 'text-grey' : ''}`">
+          <b class="q-mr-xs">ข้อที่: {{ index + 1 }}</b
           >{{ question.Question }}
         </div>
       </span>
@@ -14,11 +14,17 @@
       <div class="row">
         <div v-if="question.Type === null">
           <!-- radio -->
-          <q-option-group class="q-ml-sm" :options="question.Answers" type="radio" v-model="question.Result" />
+          <q-option-group
+            :disable="question.IsDisable"
+            class="q-ml-sm"
+            :options="question.Answers"
+            type="radio"
+            v-model="question.Result"
+          />
         </div>
         <!-- input -->
         <div class="full-width q-mb-sm" v-else>
-          <q-input class="q-ml-lg" outlined v-model="question.Result" dense />
+          <q-input :filled="question.IsDisable" :disable="question.IsDisable" class="q-ml-lg" outlined v-model="question.Result" dense />
         </div>
       </div>
     </q-card-section>
@@ -26,6 +32,9 @@
 </template>
 
 <script>
+import { onMounted, ref, watch } from 'vue';
+import action from '../../hook/Question/action';
+
 export default {
   props: {
     question: {
@@ -39,9 +48,19 @@ export default {
   },
   setup(props) {
     const { question, index } = props;
+    const { InitDisable, CheckCardDisable } = action;
+
+    onMounted(() => {
+      //InitDisable
+      question.Referen && InitDisable(question.Referen);
+    });
+
+    watch(
+      () => question.Result,
+      () => CheckCardDisable(question.Id)
+    );
+
     return { question, index };
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
