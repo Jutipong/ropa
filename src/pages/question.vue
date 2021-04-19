@@ -24,8 +24,8 @@ export default {
     CardComponent,
   },
   setup() {
-    const { GetQuestions } = actionUse;
     const { isLoading, store } = stateUse;
+    const { GetQuestions } = actionUse;
     onMounted(() => GetQuestions());
     return { store, isLoading };
   },

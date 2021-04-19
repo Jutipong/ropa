@@ -5,10 +5,10 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-avatar>
+          <q-avatar class="hidden md:block">
             <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
           </q-avatar>
-          Title
+          Ropa system
         </q-toolbar-title>
         <q-space />
         <q-btn :ripple="false" align="around" label="Logout" dense flat icon="logout" @click="Logout"></q-btn>
