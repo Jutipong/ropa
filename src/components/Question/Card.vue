@@ -27,7 +27,8 @@
 
 <script>
 import { onMounted, ref } from 'vue';
-import { state } from '../../hook/Question';
+import action from '../../hook/Question/action';
+
 export default {
   props: {
     question: {
@@ -41,37 +42,14 @@ export default {
   },
   setup(props) {
     const { question, index } = props;
-    const { questionsData } = state();
+    let { InitDisable } = action;
     const isDisabled = ref(false);
 
-    // const isDisabled = computed(() => {
-    //   debugger;
-    //   const id = question.Id;
-    //   questionsData.filter((r) => r.Referer);
-    //   return 1;
-    // });
     onMounted(() => {
-      let referers = [];
-      questionsData.Questions.filter((r) => r.Id != question.Id && r.Referer && r.Result === null)
-        .map((r) => r)
-        .map((r) => r.Referer)
-        .forEach((r) => {
-          const arrs = Object.keys(r).map(function (key) {
-            return r[key];
-          });
-          referers = referers.concat(arrs);
-        });
-
-      const result = referers.some((r) => r === question.Id);
-      isDisabled.value = result;
-      referers = [];
+      isDisabled.value = InitDisable(question.Id);
     });
-
-    
 
     return { question, index, isDisabled };
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -7,8 +7,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue';
-import { state } from '../hook/Question';
+import state from '../hook/Question/store';
 import CardComponent from '../components/Question/Card';
 
 export default {
@@ -16,19 +15,8 @@ export default {
     CardComponent,
   },
   setup() {
-    const { questionsData } = state();
-
-    // watch(question.Questions.Result, (val) => {
-    //   console.log(val);
-    // });
-
-    const options = reactive([
-      { label: 'Battery too low', value: 'bat' },
-      { label: 'Friend request', value: 'friend', color: 'green' },
-      { label: 'Picture uploaded', value: 'upload', color: 'red' },
-    ]);
-
-    return { questionsData, options };
+    const { questionsData } = state;
+    return { questionsData };
   },
 };
 </script>
