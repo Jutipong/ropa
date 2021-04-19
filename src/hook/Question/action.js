@@ -1,7 +1,17 @@
 import { reactive } from 'vue';
-import mockDataUse from '../MockData.js';
+import mockDataUse from '../MockData';
+import storeUse from '../Question/store';
 
-const store = reactive(mockDataUse.questions);
+const { store, isLoading } = storeUse;
+
+const GetQuestions = () => {
+  isLoading.value = true;
+  setTimeout(() => {
+    //mock get data from API
+    Object.assign(store, mockDataUse.questions);
+    isLoading.value = false;
+  }, 5000);
+};
 
 const InitDisable = (Referen) => {
   store.Questions.filter((r) => Referen.includes(r.Id)).forEach((r) => {
@@ -10,10 +20,8 @@ const InitDisable = (Referen) => {
 };
 
 const CheckCardDisable = (id) => {
-  debugger;
   const obj = store.Questions.find((r) => r.Id === id);
   if (obj) {
-    debugger;
     store.Questions.filter((r) => obj.Referen.includes(r.Id)).forEach((r) => {
       if (obj.Result) {
         r.IsDisable = false;
@@ -27,5 +35,6 @@ const CheckCardDisable = (id) => {
 
 export default {
   InitDisable,
+  GetQuestions,
   CheckCardDisable,
 };
