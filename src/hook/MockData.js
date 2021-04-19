@@ -21,6 +21,7 @@ let questions = {
       Expect: null,
       Result: null,
       Type: 'input',
+      Referen: [22],
       IsDisable: false,
     },
     {

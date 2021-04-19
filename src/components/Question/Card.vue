@@ -3,7 +3,7 @@
     <!-- title question -->
     <q-card-section class="q-ml-md">
       <span>
-        <div>
+        <div :class="`${question.IsDisable ? 'text-grey' : ''}`">
           <b class="q-mr-xs">ข้อที่: {{ index + 1 }}</b
           >{{ question.Question }}
         </div>
@@ -49,23 +49,18 @@ export default {
   setup(props) {
     const { question, index } = props;
     const { InitDisable, CheckCardDisable } = action;
-    const isDisabled = ref(false);
 
     onMounted(() => {
       //InitDisable
-      debugger;
       question.Referen && InitDisable(question.Referen);
     });
 
     watch(
       () => question.Result,
-      (val) => {
-        debugger;
-        val && CheckCardDisable(question.Id);
-      }
+      () => CheckCardDisable(question.Id)
     );
 
-    return { question, index, isDisabled };
+    return { question, index };
   },
 };
 </script>
