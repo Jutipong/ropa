@@ -57,17 +57,11 @@ export default {
   setup(props) {
     const { question, index } = props;
     const { InitDisable, CheckCardDisable } = action;
-
-    onMounted(() => {
-      //InitDisable
-      question.Referen && InitDisable(question.Referen);
-    });
-
+    onMounted(() => question.Referen && InitDisable(question.Referen));
     watch(
       () => question.Result,
       () => CheckCardDisable(question.Id)
     );
-
     return { question, index };
   },
 };
