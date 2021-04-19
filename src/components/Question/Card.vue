@@ -24,7 +24,15 @@
         </div>
         <!-- input -->
         <div class="full-width q-mb-sm" v-else>
-          <q-input :filled="question.IsDisable" :disable="question.IsDisable" class="q-ml-lg" outlined v-model="question.Result" dense />
+          <q-input
+            clearable
+            :filled="question.IsDisable"
+            :disable="question.IsDisable"
+            class="q-ml-lg"
+            outlined
+            v-model="question.Result"
+            dense
+          />
         </div>
       </div>
     </q-card-section>
@@ -32,7 +40,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, watch } from 'vue';
 import action from '../../hook/Question/action';
 
 export default {
