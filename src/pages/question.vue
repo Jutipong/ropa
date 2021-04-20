@@ -15,7 +15,7 @@
 
 <script>
 import { onMounted } from 'vue';
-import stateUse from '../hook/Question/store';
+import stateUse from '../hook/Question/state';
 import actionUse from '../hook/Question/action';
 import CardComponent from '../components/Question/Card';
 

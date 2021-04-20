@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-ma-sm q-mb-lg">
+  <q-card class=" q-mb-lg">
     <!-- title question -->
     <q-card-section class="q-ml-md">
       <span>

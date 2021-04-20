@@ -1,6 +1,5 @@
-import { reactive } from 'vue';
 import mockDataUse from '../MockData';
-import storeUse from '../Question/store';
+import storeUse from './state';
 
 const { store, isLoading } = storeUse;
 

@@ -41,6 +41,42 @@ let questions = {
   ],
 };
 
+let groups = [
+  {
+    Id: '001',
+    Name: 'Group 1',
+    CreateDate: new Date(),
+    CreateBy: 'System',
+    UpdateDate: new Date(),
+    UpdateBy: 'System update'
+  },
+  {
+    Id: '002',
+    Name: 'Group 2',
+    CreateDate: new Date(),
+    CreateBy: 'System',
+    UpdateDate: new Date(),
+    UpdateBy: 'System update'
+  },
+  {
+    Id: '003',
+    Name: 'Group 3',
+    CreateDate: new Date(),
+    CreateBy: 'System',
+    UpdateDate: new Date(),
+    UpdateBy: 'System update'
+  },
+  {
+    Id: '004',
+    Name: 'Group 4',
+    CreateDate: new Date(),
+    CreateBy: 'System',
+    UpdateDate: new Date(),
+    UpdateBy: 'System update'
+  },
+];
+
 export default {
   questions,
+  groups
 };
