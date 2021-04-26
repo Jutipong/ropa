@@ -41,42 +41,23 @@ let questions = {
   ],
 };
 
-let groups = [
-  {
-    Id: '001',
-    Name: 'Group 1',
-    CreateDate: new Date(),
-    CreateBy: 'System',
-    UpdateDate: new Date(),
-    UpdateBy: 'System update'
-  },
-  {
-    Id: '002',
-    Name: 'Group 2',
-    CreateDate: new Date(),
-    CreateBy: 'System',
-    UpdateDate: new Date(),
-    UpdateBy: 'System update'
-  },
-  {
-    Id: '003',
-    Name: 'Group 3',
-    CreateDate: new Date(),
-    CreateBy: 'System',
-    UpdateDate: new Date(),
-    UpdateBy: 'System update'
-  },
-  {
-    Id: '004',
-    Name: 'Group 4',
-    CreateDate: new Date(),
-    CreateBy: 'System',
-    UpdateDate: new Date(),
-    UpdateBy: 'System update'
-  },
-];
+let groups = [];
+const MockGroup = () => {
+  for (let i = 1; i <= 100; i++) {
+    groups.push({
+      Id: `0${i}`,
+      Name: `Group ${i}`,
+      CreateDate: new Date(),
+      CreateBy: 'System',
+      UpdateDate: new Date(),
+      UpdateBy: 'System update',
+    });
+  }
+};
+debugger;
+MockGroup();
 
 export default {
   questions,
-  groups
+  groups,
 };
