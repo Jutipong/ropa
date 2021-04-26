@@ -10,7 +10,7 @@ const GetGroups = () => {
     //mock get data from API
     Object.assign(store, mockDataUse.groups);
     isLoading.value = false;
-  }, 2000);
+  }, 1000);
 };
 
 export default {
