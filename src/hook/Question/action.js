@@ -1,6 +1,5 @@
-import { reactive } from 'vue';
 import mockDataUse from '../MockData';
-import storeUse from '../Question/store';
+import storeUse from './state';
 
 const { store, isLoading } = storeUse;
 
@@ -10,7 +9,7 @@ const GetQuestions = () => {
     //mock get data from API
     Object.assign(store, mockDataUse.questions);
     isLoading.value = false;
-  }, 5000);
+  }, 1000);
 };
 
 const InitDisable = (Referen) => {
