@@ -7,16 +7,7 @@
     </div>
     <div v-else>
       <!-- content -->
-      <q-table
-        :rows="store"
-        :columns="columns"
-        row-key="id"
-        v-model:pagination="pagination"
-        :loading="isLoading"
-        :filter="filter"
-        @request="onRequest"
-        binary-state-sort
-      >
+      <q-table :rows="store" :columns="columns" row-key="id" :loading="isLoading" :pagination="initialPagination">
         <!-- slot top -->
         <template v-slot:top="props">
           <q-btn flat round :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
@@ -24,20 +15,12 @@
           <q-separator vertical spaced />
           <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide">Gropus</div>
           <q-space />
-          <q-input class="" clearable dense bordered v-model="filter" placeholder="ค้นหา">
+          <q-input class="" clearable dense bordered placeholder="ค้นหา">
             <template v-slot:append>
               <q-icon name="search" />
             </template>
           </q-input>
-          <q-btn
-            round
-            class="q-ml-md"
-            color="secondary"
-            icon="eva-refresh-outline"
-            @click="OnRefresh()"
-            :loading="isLoading"
-            :disable="isLoading"
-          />
+          <q-btn round class="q-ml-md" color="secondary" icon="eva-refresh-outline" :loading="isLoading" :disable="isLoading" />
         </template>
 
         <!-- <template v-slot:pagination="scope">
@@ -104,26 +87,17 @@ export default {
       },
       { name: 'UpdateBy', label: 'UpdateBy', align: 'center', field: 'UpdateBy', sortable: true },
     ];
-    const customSort = (store, sortBy, descending) => {
-      const data = [...store];
 
-      if (sortBy) {
-        data.sort((a, b) => {
-          const x = descending ? b : a;
-          const y = descending ? a : b;
-
-          if (sortBy === 'name') {
-            // string sort
-            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0;
-          } else {
-            // numeric sort
-            return parseFloat(x[sortBy]) - parseFloat(y[sortBy]);
-          }
-        });
-      }
+    const initialPagination = {
+      sortBy: 'desc',
+      descending: false,
+      page: 1,
+      rowsPerPage: 10,
+      // rowsNumber: xx if getting data from a server
     };
+
     onMounted(() => GetGroups());
-    return { isLoading, store, columns, customSort };
+    return { isLoading, store, columns, initialPagination };
   },
 };
 </script>
