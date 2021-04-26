@@ -9,7 +9,7 @@ const GetQuestions = () => {
     //mock get data from API
     Object.assign(store, mockDataUse.questions);
     isLoading.value = false;
-  }, 5000);
+  }, 1000);
 };
 
 const InitDisable = (Referen) => {
