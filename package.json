@@ -10,13 +10,13 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.10.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0-beta.1"
+    "quasar": "^2.0.0-beta.13"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0-beta.1"
+    "@quasar/app": "^3.0.0-beta.16"
   },
   "browserslist": [
     "last 10 Chrome versions",

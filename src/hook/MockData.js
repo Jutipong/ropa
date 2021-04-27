@@ -54,7 +54,6 @@ const MockGroup = () => {
     });
   }
 };
-debugger;
 MockGroup();
 
 export default {

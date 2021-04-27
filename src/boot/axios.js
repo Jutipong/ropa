@@ -1,7 +1,18 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Origin, Content-Type',
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+  'Content-Type': 'application/json; charset=utf-8',
+};
 
-const api = axios.create({ baseURL: 'https://api.example.com' })
+// let token = 'dsfkjsl';
+// axios.defaults.preflightContinue = true;
+// //axios.defaults.crossDomain = true;
+// axios.defaults.withCredentials = !!token;
+const api = axios.create({ baseURL: process.env.api, headers });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
