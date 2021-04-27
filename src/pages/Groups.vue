@@ -134,6 +134,7 @@ export default {
           IsActive: true,
         },
       ];
+      debugger;
       await api
         .post(`MsGroup/Inquiry`, req)
         .then((res) => {
@@ -172,9 +173,8 @@ export default {
       loading.value = true;
 
       // emulate server
-      debugger;
       // update rowsCount with appropriate value
-      pagination.value.rowsNumber = 1000;// getRowsNumberCount(filter);
+      pagination.value.rowsNumber = 1000; // getRowsNumberCount(filter);
 
       // get all rows if "All" (0) is selected
       const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage;
@@ -196,7 +196,9 @@ export default {
 
       // ...and turn of loading indicator
       loading.value = false;
-      loadingPage.value = false;
+      setTimeout(() => {
+        loadingPage.value = false;
+      }, 1000);
     }
 
     function getRowsNumberCount(filter) {
