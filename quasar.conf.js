@@ -7,6 +7,8 @@
 // https://v2.quasar.dev/quasar-cli/quasar-conf-js
 
 const { configure } = require('quasar/wrappers');
+let API_HTTP = 'https://localhost:44350/';
+let API_HTTPS = 'https://localhost:44350/';
 
 module.exports = configure(function (ctx) {
   return {
@@ -40,8 +42,10 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
-
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+      env: {
+        api: API_HTTPS, // API_HTTP | API_HTTPS
+      },
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
