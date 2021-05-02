@@ -7,11 +7,9 @@
     </div>
     <div v-else>
       <!-- content -->
-
       <div class="row q-mb-md">
         <!-- <q-btn color="primary" icon="check" label="OK" @click="onAdd" /> -->
       </div>
-
       <q-table
         row-key="id"
         :rows="rows"
@@ -33,7 +31,14 @@
           <q-separator vertical spaced />
           <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide">Gropus</div>
           <q-space />
-          <q-input class="" clearable dense bordered placeholder="ค้นหา">
+          <q-input
+            clearable
+            dense
+            bordered
+            placeholder="ค้นหา"
+            v-model="filter"
+            @keyup.enter="onRequest({ pagination })"
+          >
             <template v-slot:append>
               <q-icon name="search" />
             </template>
@@ -45,6 +50,7 @@
             icon="eva-refresh-outline"
             :loading="loading"
             :disable="loading"
+            @click="onRequest({ pagination })"
           />
         </template>
         <!-- <template v-slot:pagination="scope"> Page: {{ scope.pagination.page }}/ {{ scope.pagesNumber }} </template> -->
@@ -92,11 +98,11 @@ export default {
     const rows = ref([]);
     const filter = ref('');
     const pagination = ref({
-      sortBy: '',
-      descending: false,
+      sortBy: 'CreateDate',
+      descending: true,
       page: 1,
-      // rowsPerPage: 3,
-      // rowsNumber: 10,
+      rowsPerPage: 10,
+      rowsNumber: 0,
     });
 
     // async function fetchFromServer(startRow, count, filter, sortBy, descending) {
@@ -108,6 +114,7 @@ export default {
         RowsPerPage,
         SortBy,
         Descending,
+        Filter: filter.value,
       };
       await api
         .post(`MsGroup/Inquiry`, req)
@@ -129,8 +136,7 @@ export default {
 
     async function onRequest(props) {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      const filter = props.filter;
-
+      // const filter = props.filter;
       loading.value = true;
 
       // emulate server
@@ -144,32 +150,37 @@ export default {
       // const startRow = (page - 1) * rowsPerPage;
 
       // fetch data from "server"
-      // const returnedData = await fetchFromServer(startRow, fetchCount, filter, sortBy, descending);
       const { datas, totalRows } = await fetchFromServer(page, rowsPerPage, sortBy, descending);
       // clear out existing data and add new
       rows.value.splice(0, rows.value.length, ...datas);
       // don't forget to update local pagination object
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.sortBy = sortBy;
-      pagination.value.descending = descending;
       pagination.value.rowsNumber = totalRows;
+      if (sortBy) {
+        pagination.value.sortBy = sortBy;
+        pagination.value.descending = descending;
+      } else {
+        pagination.value.descending = false;
+      }
       //loading
       loading.value = false;
       // loadingPage.value = false;
     }
 
     onMounted(async () => {
-      // get initial data from server (1st page)
       await onRequest({
         pagination: pagination.value,
-        filter: undefined,
+        // filter: undefined,
       });
-      loadingPage.value = false;
+
+      setTimeout(() => {
+        loadingPage.value = false;
+      }, 1000);
     });
 
     // onMounted(() => GetGroups());
-    return { loadingPage, loading, store, rows, columns, pagination, onRequest };
+    return { loadingPage, loading, store, rows, columns, pagination, onRequest, filter };
   },
 };
 </script>
