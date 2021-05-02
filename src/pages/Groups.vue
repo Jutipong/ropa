@@ -7,10 +7,15 @@
     </div>
     <div v-else>
       <!-- content -->
+
+      <div class="row q-mb-md">
+        <!-- <q-btn color="primary" icon="check" label="OK" @click="onAdd" /> -->
+      </div>
+
       <q-table
+        row-key="id"
         :rows="rows"
         :columns="columns"
-        row-key="id"
         :loading="loading"
         @request="onRequest"
         v-model:pagination="pagination"
@@ -42,34 +47,7 @@
             :disable="loading"
           />
         </template>
-
-        <!-- <template v-slot:pagination="scope">
-          <q-btn
-            v-if="scope.pagesNumber > 2"
-            icon="first_page"
-            color="grey-8"
-            round
-            dense
-            flat
-            :disable="scope.isFirstPage"
-            @click="scope.firstPage"
-          />
-
-          <q-btn icon="chevron_left" color="grey-8" round dense flat :disable="scope.isFirstPage" @click="scope.prevPage" />
-
-          <q-btn icon="chevron_right" color="grey-8" round dense flat :disable="scope.isLastPage" @click="scope.nextPage" />
-
-          <q-btn
-            v-if="scope.pagesNumber > 2"
-            icon="last_page"
-            color="grey-8"
-            round
-            dense
-            flat
-            :disable="scope.isLastPage"
-            @click="scope.lastPage"
-          />
-        </template> -->
+        <!-- <template v-slot:pagination="scope"> Page: {{ scope.pagination.page }}/ {{ scope.pagesNumber }} </template> -->
       </q-table>
       <!-- end content -->
     </div>
@@ -114,31 +92,28 @@ export default {
     const rows = ref([]);
     const filter = ref('');
     const pagination = ref({
-      sortBy: 'desc',
+      sortBy: '',
       descending: false,
       page: 1,
-      rowsPerPage: 3,
-      rowsNumber: 10,
+      // rowsPerPage: 3,
+      // rowsNumber: 10,
     });
 
-    async function fetchFromServer(startRow, count, filter, sortBy, descending) {
-      // const data = filter ? store.filter((row) => row.name.includes(filter)) : store.slice();
-      const req = [
-        {
-          IdGroup: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          Name: 'string',
-          CreateDate: '2021-04-27T04:35:09.656Z',
-          CreateBy: 'string',
-          UpdateDate: '2021-04-27T04:35:09.656Z',
-          UpdateBy: 'string',
-          IsActive: true,
-        },
-      ];
-      debugger;
+    // async function fetchFromServer(startRow, count, filter, sortBy, descending) {
+    async function fetchFromServer(Page, RowsPerPage, SortBy, Descending) {
+      let totalRows = 0;
+      let datas = [];
+      const req = {
+        Page,
+        RowsPerPage,
+        SortBy,
+        Descending,
+      };
       await api
         .post(`MsGroup/Inquiry`, req)
         .then((res) => {
-          Object.assign(store, res.data.Datas);
+          datas = res.data.Datas;
+          totalRows = res.data.Total;
         })
         .catch((err) => {
           loading.value = false;
@@ -149,21 +124,7 @@ export default {
           });
         });
 
-      // handle sortBy
-      // if (sortBy) {
-      //   const sortFn =
-      //     sortBy === 'desc'
-      //       ? descending
-      //         ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
-      //         : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
-      //       : descending
-      //       ? (a, b) => parseFloat(b[sortBy]) - parseFloat(a[sortBy])
-      //       : (a, b) => parseFloat(a[sortBy]) - parseFloat(b[sortBy]);
-      //   data.sort(sortFn);
-      // }
-      debugger;
-      // return data.slice(startRow, startRow + count);
-      return store.slice(startRow, startRow + count);
+      return { datas, totalRows };
     }
 
     async function onRequest(props) {
@@ -174,52 +135,37 @@ export default {
 
       // emulate server
       // update rowsCount with appropriate value
-      pagination.value.rowsNumber = 1000; // getRowsNumberCount(filter);
+      // pagination.value.rowsNumber = 1000; // getRowsNumberCount(filter);
 
       // get all rows if "All" (0) is selected
-      const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage;
+      // const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage;
 
       // calculate starting row of data
-      const startRow = (page - 1) * rowsPerPage;
+      // const startRow = (page - 1) * rowsPerPage;
 
       // fetch data from "server"
-      const returnedData = await fetchFromServer(startRow, fetchCount, filter, sortBy, descending);
-
+      // const returnedData = await fetchFromServer(startRow, fetchCount, filter, sortBy, descending);
+      const { datas, totalRows } = await fetchFromServer(page, rowsPerPage, sortBy, descending);
       // clear out existing data and add new
-      rows.value.splice(0, rows.value.length, ...returnedData);
-
+      rows.value.splice(0, rows.value.length, ...datas);
       // don't forget to update local pagination object
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
       pagination.value.sortBy = sortBy;
       pagination.value.descending = descending;
-
-      // ...and turn of loading indicator
+      pagination.value.rowsNumber = totalRows;
+      //loading
       loading.value = false;
-      setTimeout(() => {
-        loadingPage.value = false;
-      }, 1000);
+      // loadingPage.value = false;
     }
 
-    function getRowsNumberCount(filter) {
-      if (!filter) {
-        return store.length;
-      }
-      let count = 0;
-      store.forEach((treat) => {
-        if (treat.name.includes(filter)) {
-          ++count;
-        }
-      });
-      return count;
-    }
-
-    onMounted(() => {
+    onMounted(async () => {
       // get initial data from server (1st page)
-      onRequest({
+      await onRequest({
         pagination: pagination.value,
         filter: undefined,
       });
+      loadingPage.value = false;
     });
 
     // onMounted(() => GetGroups());
