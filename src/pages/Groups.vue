@@ -105,7 +105,6 @@ export default {
       rowsNumber: 0,
     });
 
-    // async function fetchFromServer(startRow, count, filter, sortBy, descending) {
     async function fetchFromServer(Page, RowsPerPage, SortBy, Descending) {
       let totalRows = 0;
       let datas = [];
@@ -136,19 +135,7 @@ export default {
 
     async function onRequest(props) {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      // const filter = props.filter;
       loading.value = true;
-
-      // emulate server
-      // update rowsCount with appropriate value
-      // pagination.value.rowsNumber = 1000; // getRowsNumberCount(filter);
-
-      // get all rows if "All" (0) is selected
-      // const fetchCount = rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage;
-
-      // calculate starting row of data
-      // const startRow = (page - 1) * rowsPerPage;
-
       // fetch data from "server"
       const { datas, totalRows } = await fetchFromServer(page, rowsPerPage, sortBy, descending);
       // clear out existing data and add new
@@ -165,13 +152,11 @@ export default {
       }
       //loading
       loading.value = false;
-      // loadingPage.value = false;
     }
 
     onMounted(async () => {
       await onRequest({
         pagination: pagination.value,
-        // filter: undefined,
       });
 
       setTimeout(() => {
@@ -179,7 +164,6 @@ export default {
       }, 1000);
     });
 
-    // onMounted(() => GetGroups());
     return { loadingPage, loading, store, rows, columns, pagination, onRequest, filter };
   },
 };
