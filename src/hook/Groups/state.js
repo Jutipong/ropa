@@ -3,6 +3,8 @@ import { date } from 'quasar';
 
 const store = reactive([]);
 const loading = ref(false);
+
+//#region //ใช้สำหรับ Q-Talbe
 const columns = [
   { name: 'Name', label: 'Name', align: 'center', field: 'Name', sortable: false },
   {
@@ -24,9 +26,15 @@ const columns = [
   },
   { name: 'UpdateBy', label: 'UpdateBy', align: 'center', field: 'UpdateBy', sortable: false },
 ];
+//#endregion
+
+//#region //ใช้สำหรับ Dialog Action
+const isShowDialog = ref(false);
+//#endregion
 
 export default {
   loading,
   store,
   columns,
+  isShowDialog,
 };

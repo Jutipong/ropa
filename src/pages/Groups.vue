@@ -2,140 +2,27 @@
   <div class="q-pa-md">
     <!-- content -->
     <div class="row q-mb-md">
-      <!-- <q-btn color="primary" icon="check" label="OK" @click="onAdd" /> -->
+      <q-btn color="primary" icon="eva-plus-outline" label="Create" @click="OnCreate" />
     </div>
-    <q-table
-      row-key="id"
-      :rows="rows"
-      :columns="columns"
-      :loading="loading"
-      @request="onRequest"
-      v-model:pagination="pagination"
-      color="primary"
-    >
-      <!-- slot top -->
-      <template v-slot:top="props">
-        <q-btn
-          flat
-          round
-          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-          @click="props.toggleFullscreen"
-          class="q-ml-md"
-        />
-        <!-- <q-space /> -->
-        <q-separator vertical spaced />
-        <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide">Gropus</div>
-        <q-space />
-        <q-input
-          clearable
-          dense
-          bordered
-          placeholder="ค้นหา"
-          :disable="loading"
-          v-model="filter"
-          @keyup.enter="onRequest({ pagination })"
-        >
-          <template v-slot:append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-        <q-btn
-          round
-          class="q-ml-md"
-          color="secondary"
-          icon="eva-refresh-outline"
-          :loading="loading"
-          :disable="loading"
-          @click="onRequest({ pagination })"
-        />
-      </template>
-      <!-- <template v-slot:pagination="scope"> Page: {{ scope.pagination.page }}/ {{ scope.pagesNumber }} </template> -->
-    </q-table>
+    <QTable></QTable>
     <!-- end content -->
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
-import { api } from 'boot/axios';
-import { useQuasar, date } from 'quasar';
+import QTable from '../components/Groups/Q-Table';
 import stateUse from '../hook/Groups/state';
-import actionUse from '../hook/Groups/action';
 
 export default {
+  components: {
+    QTable,
+  },
   setup() {
-    //value utility
-    const $q = useQuasar();
-    const { loading, columns } = stateUse;
-    const { GetGroups } = actionUse;
-
-    //value in page
-    const rows = ref([]);
-    const filter = ref('');
-    const pagination = ref({
-      sortBy: 'CreateDate',
-      descending: true,
-      page: 1,
-      rowsPerPage: 10,
-      rowsNumber: 0,
-    });
-
-    async function fetchFromServer(Page, RowsPerPage, SortBy, Descending) {
-      let totalRows = 0;
-      let datas = [];
-      const req = {
-        Page,
-        RowsPerPage,
-        SortBy,
-        Descending,
-        Filter: filter.value,
-      };
-      await api
-        .post(`MsGroup/Inquiry`, req)
-        .then((res) => {
-          datas = res.data.Datas;
-          totalRows = res.data.Total;
-        })
-        .catch((err) => {
-          loading.value = false;
-          $q.notify({
-            color: 'negative',
-            message: err.message,
-            icon: 'report_problem',
-          });
-        });
-
-      return { datas, totalRows };
-    }
-
-    async function onRequest(props) {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      loading.value = true;
-      // fetch data from "server"
-      const { datas, totalRows } = await fetchFromServer(page, rowsPerPage, sortBy, descending);
-      // clear out existing data and add new
-      rows.value.splice(0, rows.value.length, ...datas);
-      // don't forget to update local pagination object
-      pagination.value.page = page;
-      pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.rowsNumber = totalRows;
-      if (sortBy) {
-        pagination.value.sortBy = sortBy;
-        pagination.value.descending = descending;
-      } else {
-        pagination.value.descending = false;
-      }
-      //loading
-      loading.value = false;
-    }
-
-    onMounted(async () => {
-      await onRequest({
-        pagination: pagination.value,
-      });
-    });
-
-    return { loading, rows, columns, pagination, filter, onRequest };
+    const { isShowDialog } = stateUse;
+    const OnCreate = () => {
+      isShowDialog.value = true;
+    };
+    return { OnCreate };
   },
 };
 </script>
