@@ -23,6 +23,7 @@
         <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide">Gropus</div>
         <q-space />
         <q-input
+
           clearable
           dense
           bordered
