@@ -8,9 +8,9 @@
 
 const { configure } = require('quasar/wrappers');
 let API_HTTP = 'https://localhost:44350/';
-let API_HTTPS = 'https://localhost:44350/';
+let API_HTTPS = 'https://localhost:5001/';
 
-module.exports = configure(function (ctx) {
+https: module.exports = configure(function (ctx) {
   return {
     // https://v2.quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
