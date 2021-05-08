@@ -57,7 +57,7 @@
 import { onMounted, ref, provide } from 'vue';
 import { useQuasar, date } from 'quasar';
 import stateUse from '../../hook/Groups/state';
-import qTableUse from "../../hook/Groups/q-table";
+import qTableUse from '../../hook/Groups/q-table';
 import DialogAction from '../../components/Groups/DialogAction';
 
 export default {
@@ -66,8 +66,8 @@ export default {
   },
   setup() {
     const $q = useQuasar();
-    const { loading, columns } = stateUse;
-    const { OnRequest, rows, filter, pagination} = qTableUse
+    const { loading } = stateUse;
+    const { columns, rows, filter, pagination, OnRequest } = qTableUse;
     const isShow = ref(true);
 
     onMounted(async () => {
