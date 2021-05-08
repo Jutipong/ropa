@@ -1,7 +1,7 @@
 import { api } from 'boot/axios';
-import storeUse from './state';
+import stateUse from './state';
 
-const { store, isLoading } = storeUse;
+const { loading } = stateUse;
 
 const GetGroups = async (req) => {
   let totalRows = 0;
