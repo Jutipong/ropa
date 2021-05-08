@@ -13,7 +13,7 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Add address" v-close-popup />
+          <q-btn flat label="Add address" @click="OnAction" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -23,10 +23,18 @@
 <script>
 import { inject } from 'vue';
 import stateUse from '../../hook/Groups/state';
+import qTableUse from '../../hook/Groups/q-table';
 export default {
   setup() {
     const { isShowDialog } = stateUse;
-    return { isShowDialog };
+    const { OnRequest, pagination } = qTableUse;
+
+    const OnAction = () => {
+      OnRequest({
+        pagination: pagination.value,
+      });
+    };
+    return { isShowDialog, OnAction };
   },
 };
 </script>
