@@ -14,7 +14,7 @@
             />
             <div align="right" class="text-primary">
               <q-btn type="reset" flat label="Cancel" v-close-popup />
-              <q-btn type="submit" flat label="Create" @click="OnAction" />
+              <q-btn type="submit" flat label="Create" />
             </div>
           </q-form>
         </div>
@@ -30,12 +30,14 @@ import qTableUse from '../../hook/Groups/q-table';
 export default {
   setup() {
     const { OnRequest, pagination } = qTableUse;
-    const { ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
+    const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
 
-    const OnAction = () => {
-      OnRequest({
-        pagination: pagination.value,
-      });
+    const OnAction = async () => {
+      const action = msGroup.IdGroup === null ? 'Create' : 'Update';
+      await Action(msGroup, action);
+      // OnRequest({
+      //   pagination: pagination.value,
+      // });
     };
 
     watch(isShowDialog, () => {
