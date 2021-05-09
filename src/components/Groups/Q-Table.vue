@@ -45,7 +45,35 @@
           @click="OnRequest({ pagination })"
         />
       </template>
-      <!-- <template v-slot:pagination="scope"> Page: {{ scope.pagination.page }}/ {{ scope.pagesNumber }} </template> -->
+
+      <template v-slot:body-cell-delete="props">
+        <q-td :props="props">
+          <!-- Delete -->
+          <q-btn type="button" round flat color="negative" icon="eva-trash-2-outline">
+            <template v-slot>
+              <q-tooltip>Delete!</q-tooltip>
+            </template>
+          </q-btn>
+        </q-td>
+      </template>
+
+      <template v-slot:body-cell-edit="props">
+        <q-td :props="props">
+          <!-- Add  -->
+          <q-btn
+            v-if="props.row.createDate == null"
+            type="button"
+            round
+            flat
+            color="primary"
+            icon="eva-edit-outline"
+          >
+            <template v-slot>
+              <q-tooltip>Add New</q-tooltip>
+            </template>
+          </q-btn>
+        </q-td>
+      </template>
     </q-table>
   </div>
   <div>

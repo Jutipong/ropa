@@ -8,6 +8,7 @@
           </div>
           <q-form @submit="OnAction" class="q-gutter-md">
             <q-input
+              autofocus
               v-model="msGroup.Name"
               label="Name *"
               :rules="[(val) => (val && val.length > 0) || 'Please type something']"

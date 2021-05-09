@@ -2,8 +2,10 @@ import { ref, reactive } from 'vue';
 import { api } from 'boot/axios';
 import helperUse from '../helper';
 import groupsUse from '../Groups/groups';
+import qTableUse from '../Groups/q-table';
 
 const { NotifySucceed, NotifyFail } = helperUse;
+const { OnRequest, pagination } = qTableUse;
 const { loading } = groupsUse;
 const isShowDialog = ref(false);
 const msGroupModel = {
@@ -22,6 +24,9 @@ const Action = async (req, action) => {
     .then((res) => {
       res.data.Success ? NotifySucceed(res.data.Message) : NotifyFail(res.data.Message);
       isShowDialog.value = false;
+      OnRequest({
+        pagination: pagination.value,
+      });
     })
     .catch((err) => {
       isShowDialog.value = false;
