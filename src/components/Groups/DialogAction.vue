@@ -8,13 +8,14 @@
           </div>
           <q-form @submit="OnAction" class="q-gutter-md">
             <q-input
+              autofocus
               v-model="msGroup.Name"
               label="Name *"
               :rules="[(val) => (val && val.length > 0) || 'Please type something']"
             />
             <div align="right" class="text-primary">
               <q-btn type="reset" flat label="Cancel" v-close-popup />
-              <q-btn type="submit" flat label="Create" @click="OnAction" />
+              <q-btn type="submit" flat label="Create" />
             </div>
           </q-form>
         </div>
@@ -26,20 +27,17 @@
 <script>
 import { watch } from 'vue';
 import dialogActionUse from '../../hook/Groups/dialogAction';
-import qTableUse from '../../hook/Groups/q-table';
 export default {
   setup() {
-    const { OnRequest, pagination } = qTableUse;
-    const { ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
+    const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
 
-    const OnAction = () => {
-      OnRequest({
-        pagination: pagination.value,
-      });
+    const OnAction = async () => {
+      const action = msGroup.IdGroup === null ? 'Create' : 'Update';
+      await Action(msGroup, action);
     };
 
     watch(isShowDialog, () => {
-      isShowDialog.value && ClearMsGroup();
+      !isShowDialog.value && ClearMsGroup();
     });
 
     return { isShowDialog, OnAction, msGroup };

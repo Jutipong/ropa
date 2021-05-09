@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue';
 import { api } from 'boot/axios';
+import { Notify } from 'quasar';
 
 const store = reactive([]);
 const loading = ref(false);
