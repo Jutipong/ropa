@@ -46,30 +46,37 @@
         />
       </template>
 
-      <template v-slot:body-cell-delete="props">
-        <q-td :props="props">
-          <!-- Delete -->
-          <q-btn type="button" round flat color="negative" icon="eva-trash-2-outline">
-            <template v-slot>
-              <q-tooltip>Delete!</q-tooltip>
-            </template>
-          </q-btn>
-        </q-td>
-      </template>
-
+      <!-- Edit  -->
       <template v-slot:body-cell-edit="props">
         <q-td :props="props">
-          <!-- Add  -->
           <q-btn
-            v-if="props.row.createDate == null"
             type="button"
             round
             flat
             color="primary"
             icon="eva-edit-outline"
+            @click="OnEdit(props.row)"
           >
             <template v-slot>
-              <q-tooltip>Add New</q-tooltip>
+              <q-tooltip>Edit</q-tooltip>
+            </template>
+          </q-btn>
+        </q-td>
+      </template>
+
+      <template v-slot:body-cell-delete="props">
+        <q-td :props="props">
+          <!-- Delete -->
+          <q-btn
+            type="button"
+            round
+            flat
+            color="negative"
+            icon="eva-trash-2-outline"
+            @click="OnDelete(props.row)"
+          >
+            <template v-slot>
+              <q-tooltip>Delete</q-tooltip>
             </template>
           </q-btn>
         </q-td>
@@ -77,26 +84,44 @@
     </q-table>
   </div>
   <div>
-    <DialogAction v-model="isShow"></DialogAction>
+    <DialogActionComponent></DialogActionComponent>
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import stateUse from '../../hook/Groups/groups';
-import qTableUse from '../../hook/Groups/q-table';
-import DialogAction from '../../components/Groups/DialogAction';
+import msGroupTable from '../../hook/Groups/msGroupTable';
+import dialogActionUse from '../../hook/Groups/dialogAction';
+
+import DialogActionComponent from '../../components/Groups/DialogAction';
 
 export default {
   components: {
-    DialogAction,
+    DialogActionComponent,
   },
   setup() {
     const $q = useQuasar();
     const { loading } = stateUse;
-    const { columns, rows, filter, pagination, OnRequest } = qTableUse;
-    const isShow = ref(true);
+    const { columns, rows, filter, pagination, OnRequest } = msGroupTable;
+    const { Action, isShowDialog, msGroup } = dialogActionUse;
+
+    const OnEdit = async (row) => {
+      isShowDialog.value = true;
+      Object.assign(msGroup, { ...row });
+    };
+
+    const OnDelete = async (row) => {
+      $q.dialog({
+        title: 'Confirm Delete',
+        message: `Are you sure to delete this item: ${row.Name}`,
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        Action(row, 'Delete');
+      });
+    };
 
     onMounted(async () => {
       await OnRequest({
@@ -104,7 +129,17 @@ export default {
       });
     });
 
-    return { loading, rows, columns, pagination, filter, OnRequest, isShow };
+    return {
+      loading,
+      isShowDialog,
+      rows,
+      columns,
+      pagination,
+      filter,
+      OnRequest,
+      OnEdit,
+      OnDelete,
+    };
   },
 };
 </script>

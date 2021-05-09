@@ -27,22 +27,17 @@
 <script>
 import { watch } from 'vue';
 import dialogActionUse from '../../hook/Groups/dialogAction';
-import qTableUse from '../../hook/Groups/q-table';
 export default {
   setup() {
-    const { OnRequest, pagination } = qTableUse;
     const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
 
     const OnAction = async () => {
       const action = msGroup.IdGroup === null ? 'Create' : 'Update';
       await Action(msGroup, action);
-      // OnRequest({
-      //   pagination: pagination.value,
-      // });
     };
 
     watch(isShowDialog, () => {
-      isShowDialog.value && ClearMsGroup();
+      !isShowDialog.value && ClearMsGroup();
     });
 
     return { isShowDialog, OnAction, msGroup };

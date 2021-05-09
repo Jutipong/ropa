@@ -4,8 +4,9 @@ import groupsUse from './groups';
 
 const { loading, GetGroups } = groupsUse;
 const columns = [
-  { name: 'delete', field: '', label: 'Delete', align: 'center' },
   { name: 'edit', field: '', label: 'Edit', align: 'center' },
+  { name: 'delete', field: '', label: 'Delete', align: 'center' },
+  { name: 'Name', field: 'Name', label: 'Name', align: 'center' },
   {
     name: 'CreateDate',
     label: 'CreateDate',

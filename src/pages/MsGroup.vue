@@ -4,18 +4,18 @@
     <div class="row q-mb-md">
       <q-btn color="primary" icon="eva-plus-outline" label="Create" @click="OnCreate" />
     </div>
-    <MsGroupTable></MsGroupTable>
+    <MsGroupTableComponent></MsGroupTableComponent>
     <!-- end content -->
   </div>
 </template>
 
 <script>
-import MsGroupTable from '../components/Groups/MsGroupTable';
+import MsGroupTableComponent from '../components/Groups/MsGroupTable';
 import dialogActionUse from '../hook/Groups/dialogAction';
 
 export default {
   components: {
-    MsGroupTable,
+    MsGroupTableComponent,
   },
   setup() {
     const { isShowDialog } = dialogActionUse;
