@@ -2,39 +2,47 @@
   <div>
     <q-dialog v-model="isShowDialog" persistent>
       <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6">Your address</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <!-- <q-input dense v-model="address" autofocus @keyup.enter="prompt = false" /> -->
-          IsShow: {{ isShowDialog }}
-        </q-card-section>
-
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-popup />
-          <q-btn flat label="Add address" @click="OnAction" />
-        </q-card-actions>
+        <div class="q-pa-md" style="max-width: 400px">
+          <div>
+            <div class="text-h6">Create MsGroup</div>
+          </div>
+          <q-form @submit="OnAction" class="q-gutter-md">
+            <q-input
+              v-model="msGroup.Name"
+              label="Name *"
+              :rules="[(val) => (val && val.length > 0) || 'Please type something']"
+            />
+            <div align="right" class="text-primary">
+              <q-btn type="reset" flat label="Cancel" v-close-popup />
+              <q-btn type="submit" flat label="Create" @click="OnAction" />
+            </div>
+          </q-form>
+        </div>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
 <script>
-import { inject } from 'vue';
-import stateUse from '../../hook/Groups/state';
+import { watch } from 'vue';
+import dialogActionUse from '../../hook/Groups/dialogAction';
 import qTableUse from '../../hook/Groups/q-table';
 export default {
   setup() {
-    const { isShowDialog } = stateUse;
     const { OnRequest, pagination } = qTableUse;
+    const { ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
 
     const OnAction = () => {
       OnRequest({
         pagination: pagination.value,
       });
     };
-    return { isShowDialog, OnAction };
+
+    watch(isShowDialog, () => {
+      isShowDialog.value && ClearMsGroup();
+    });
+
+    return { isShowDialog, OnAction, msGroup };
   },
 };
 </script>
