@@ -1,18 +1,15 @@
 import { ref, reactive } from 'vue';
 import { api } from 'boot/axios';
-import { Notify, date } from 'quasar';
+import helperUse from '../helper';
 import groupsUse from '../Groups/groups';
 
+const { NotifySucceed, NotifyFail } = helperUse;
 const { loading } = groupsUse;
 const isShowDialog = ref(false);
 const msGroupModel = {
   IdGroup: null,
   Name: null,
   IsActive: true,
-  CreateDate: null,
-  CreateBy: null,
-  UpdateDate: null,
-  UpdateBy: null,
 };
 const msGroup = reactive({ ...msGroupModel });
 const ClearMsGroup = () => {
@@ -20,32 +17,16 @@ const ClearMsGroup = () => {
 };
 
 const Action = async (req, action) => {
-  switch (action) {
-    case 'Create':
-      req.IdGroup = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-      req.CreateDate = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ');
-      req.CreateBy = 'System';
-      break;
-    case 'Update':
-    case 'Delete':
-      req.UpdateDate = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ');
-      req.UpdateBy = 'System';
-      break;
-  }
-
   await api
     .post(`MsGroup/${action}`, req)
     .then((res) => {
-      datas = res.data.Datas;
-      totalRows = res.data.Total;
+      res.data.Success ? NotifySucceed(res.data.Message) : NotifyFail(res.data.Message);
+      isShowDialog.value = false;
     })
     .catch((err) => {
+      isShowDialog.value = false;
       loading.value = false;
-      Notify.create({
-        color: 'negative',
-        message: err.message,
-        icon: 'report_problem',
-      });
+      NotifyFail(err.message);
     });
 };
 
