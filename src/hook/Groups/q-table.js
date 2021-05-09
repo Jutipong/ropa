@@ -1,10 +1,8 @@
 import { ref } from 'vue';
 import { date } from 'quasar';
-import stateUse from './state';
-import actionUse from './action';
+import groupsUse from './groups';
 
-const { loading } = stateUse;
-const { GetGroups } = actionUse;
+const { loading, GetGroups } = groupsUse;
 const columns = [
   { name: 'Name', label: 'Name', align: 'center', field: 'Name', sortable: false },
   {

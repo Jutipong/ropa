@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import { onMounted, ref, provide } from 'vue';
-import { useQuasar, date } from 'quasar';
-import stateUse from '../../hook/Groups/state';
+import { onMounted, ref } from 'vue';
+import { useQuasar } from 'quasar';
+import stateUse from '../../hook/Groups/groups';
 import qTableUse from '../../hook/Groups/q-table';
 import DialogAction from '../../components/Groups/DialogAction';
 

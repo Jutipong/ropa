@@ -11,14 +11,14 @@
 
 <script>
 import QTable from '../components/Groups/Q-Table';
-import stateUse from '../hook/Groups/state';
+import dialogActionUse from '../hook/Groups/dialogAction';
 
 export default {
   components: {
     QTable,
   },
   setup() {
-    const { isShowDialog } = stateUse;
+    const { isShowDialog } = dialogActionUse;
     const OnCreate = () => {
       isShowDialog.value = true;
     };

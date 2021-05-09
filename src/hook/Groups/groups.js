@@ -1,7 +1,8 @@
+import { reactive, ref } from 'vue';
 import { api } from 'boot/axios';
-import stateUse from './state';
 
-const { loading } = stateUse;
+const store = reactive([]);
+const loading = ref(false);
 
 const GetGroups = async (req) => {
   let totalRows = 0;
@@ -14,7 +15,7 @@ const GetGroups = async (req) => {
     })
     .catch((err) => {
       loading.value = false;
-      $q.notify({
+      Notify.create({
         color: 'negative',
         message: err.message,
         icon: 'report_problem',
@@ -25,5 +26,7 @@ const GetGroups = async (req) => {
 };
 
 export default {
-  GetGroups,
+  loading,
+  store,
+  GetGroups
 };
