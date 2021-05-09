@@ -15,7 +15,7 @@
             />
             <div align="right" class="text-primary">
               <q-btn type="reset" flat label="Cancel" v-close-popup />
-              <q-btn type="submit" flat label="Create" />
+              <q-btn type="submit" flat :label="labelAction" />
             </div>
           </q-form>
         </div>
@@ -25,11 +25,14 @@
 </template>
 
 <script>
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import dialogActionUse from '../../hook/Groups/dialogAction';
 export default {
   setup() {
     const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
+    const labelAction = computed(() => {
+      return msGroup.IdGroup === null ? 'Create' : 'Update';
+    });
 
     const OnAction = async () => {
       const action = msGroup.IdGroup === null ? 'Create' : 'Update';
@@ -40,7 +43,7 @@ export default {
       !isShowDialog.value && ClearMsGroup();
     });
 
-    return { isShowDialog, OnAction, msGroup };
+    return { labelAction, isShowDialog, OnAction, msGroup };
   },
 };
 </script>
