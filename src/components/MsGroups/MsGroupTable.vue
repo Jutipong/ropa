@@ -95,7 +95,7 @@ import stateUse from '../../hook/Groups/groups';
 import msGroupTable from '../../hook/Groups/msGroupTable';
 import dialogActionUse from '../../hook/Groups/dialogAction';
 
-import DialogActionComponent from '../../components/Groups/DialogAction';
+import DialogActionComponent from '../../components/MsGroups/DialogAction';
 
 export default {
   components: {

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import MsGroupTableComponent from '../components/Groups/MsGroupTable';
+import MsGroupTableComponent from '../components/MsGroups/MsGroupTable';
 import dialogActionUse from '../hook/Groups/dialogAction';
 
 export default {
