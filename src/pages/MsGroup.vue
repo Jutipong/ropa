@@ -11,7 +11,7 @@
 
 <script>
 import MsGroupTableComponent from '../components/MsGroups/MsGroupTable';
-import dialogActionUse from '../hook/Groups/dialogAction';
+import dialogActionUse from '../hook/MsGroups/dialogAction';
 
 export default {
   components: {

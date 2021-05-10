@@ -91,9 +91,9 @@
 <script>
 import { onMounted } from 'vue';
 import { useQuasar } from 'quasar';
-import stateUse from '../../hook/Groups/groups';
-import msGroupTable from '../../hook/Groups/msGroupTable';
-import dialogActionUse from '../../hook/Groups/dialogAction';
+import stateUse from '../../hook/MsGroups/groups';
+import msGroupTable from '../../hook/MsGroups/msGroupTable';
+import dialogActionUse from '../../hook/MsGroups/dialogAction';
 
 import DialogActionComponent from '../../components/MsGroups/DialogAction';
 
