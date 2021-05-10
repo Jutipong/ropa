@@ -26,8 +26,8 @@
 
 <script>
 import { computed, watch } from 'vue';
-import dialogActionUse from '../../hook/MsGroups/dialogAction';
-import groupsUse from '../../hook/MsGroups/groups';
+import dialogActionUse from '../../hook/MsGroup/dialogAction';
+import groupsUse from '../../hook/MsGroup/groups';
 export default {
   setup() {
     const { loading } = groupsUse;
