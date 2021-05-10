@@ -23,7 +23,7 @@ const ClearMsGroup = () => {
 };
 
 const Action = async (req, action) => {
-  debugger;
+  loading.value = true;
   await api
     .post(`MsGroup/${action}`, req)
     .then((res) => {
@@ -32,6 +32,7 @@ const Action = async (req, action) => {
       OnRequest({
         pagination: pagination.value,
       });
+      loading.value = false;
     })
     .catch((err) => {
       isShowDialog.value = false;
