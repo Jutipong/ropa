@@ -15,7 +15,7 @@
             />
             <div align="right" class="text-primary">
               <q-btn type="reset" flat label="Cancel" v-close-popup />
-              <q-btn type="submit" flat :label="labelAction" />
+              <q-btn type="submit" flat :label="labelAction" :loading="loading" />
             </div>
           </q-form>
         </div>
@@ -27,8 +27,10 @@
 <script>
 import { computed, watch } from 'vue';
 import dialogActionUse from '../../hook/Groups/dialogAction';
+import groupsUse from '../../hook/Groups/groups';
 export default {
   setup() {
+    const { loading } = groupsUse;
     const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
     const labelAction = computed(() => {
       return msGroup.IdGroup === null ? 'Create' : 'Update';
@@ -43,7 +45,7 @@ export default {
       !isShowDialog.value && ClearMsGroup();
     });
 
-    return { labelAction, isShowDialog, OnAction, msGroup };
+    return { labelAction, isShowDialog, OnAction, msGroup, loading };
   },
 };
 </script>
