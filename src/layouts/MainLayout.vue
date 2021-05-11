@@ -36,7 +36,7 @@
       "
     >
       <div class="full-height" :class="$q.dark.isActive ? 'drawer_dark' : 'drawer_normal'">
-        <div style="height: calc(100% - 150px); padding: 10px">
+        <div style="height: calc(100% - 150px); padding: 2px">
           <q-scroll-area style="height: 100%; margin-top: 150px">
             <q-list padding>
               <template v-for="(menuItem, index) in menus" :key="index">
@@ -44,7 +44,7 @@
                   active-class="tab-active"
                   :to="menuItem.link"
                   exact
-                  class="q-ma-sm navigation-item"
+                  class="q-ma-xs navigation-item"
                   clickable
                   v-ripple
                 >
@@ -160,7 +160,7 @@ export default {
 }
 
 .navigation-item {
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .tab-active {
