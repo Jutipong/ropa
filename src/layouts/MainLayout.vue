@@ -11,7 +11,15 @@
           Ropa system
         </q-toolbar-title>
         <q-space />
-        <q-btn :ripple="false" align="around" label="Logout" dense flat icon="logout" @click="Logout"></q-btn>
+        <q-btn
+          :ripple="false"
+          align="around"
+          label="Logout"
+          dense
+          flat
+          icon="logout"
+          @click="Logout"
+        ></q-btn>
       </q-toolbar>
     </q-header>
 
@@ -32,7 +40,14 @@
           <q-scroll-area style="height: 100%; margin-top: 150px">
             <q-list padding>
               <template v-for="(menuItem, index) in menus" :key="index">
-                <q-item active-class="tab-active" :to="menuItem.link" exact class="q-ma-sm navigation-item" clickable v-ripple>
+                <q-item
+                  active-class="tab-active"
+                  :to="menuItem.link"
+                  exact
+                  class="q-ma-sm navigation-item"
+                  clickable
+                  v-ripple
+                >
                   <q-item-section avatar>
                     <q-icon :name="menuItem.icon"></q-icon>
                   </q-item-section>
@@ -43,7 +58,12 @@
           </q-scroll-area>
         </div>
       </div>
-      <q-img align="center" class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img
+        align="center"
+        class="absolute-top"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 150px"
+      >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
@@ -78,14 +98,19 @@ export default {
 
     const menus = reactive([
       {
-        label: 'ทำแบบทดสอบ',
-        icon: 'eva-settings-outline',
+        label: 'Quiz Test',
+        icon: 'eva-book-open-outline',
         link: '/',
       },
       {
-        label: 'Gropus',
+        label: 'Master Gropus',
         icon: 'eva-cube-outline',
         link: '/groups',
+      },
+      {
+        label: 'Master Question',
+        icon: 'eva-question-mark-outline',
+        link: '/question',
       },
     ]);
 

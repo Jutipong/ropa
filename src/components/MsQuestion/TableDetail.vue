@@ -20,7 +20,7 @@
         />
         <!-- <q-space /> -->
         <q-separator vertical spaced />
-        <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide"><b>Master Gropu</b></div>
+        <div class="col-4 q-table-title q-pl-sm xs-hide sm-hide"><b>Master Question</b></div>
         <q-space />
         <q-input
           clearable
@@ -91,11 +91,11 @@
 <script>
 import { onMounted } from 'vue';
 import { useQuasar } from 'quasar';
-import stateUse from '../../hook/MsGroup/groups';
-import msGroupTable from '../../hook/MsGroup/tableDetail';
-import dialogActionUse from '../../hook/MsGroup/dialogAction';
+import stateUse from '../../hook/MsQuestion/state';
+import msGroupTable from '../../hook/MsQuestion/tableDetail';
+import dialogActionUse from '../../hook/MsQuestion/dialogAction';
 
-import DialogActionComponent from '../../components/MsGroup/DialogAction';
+import DialogActionComponent from '../../components/MsQuestion/DialogAction';
 
 export default {
   components: {

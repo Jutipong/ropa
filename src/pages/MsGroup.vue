@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <!-- content -->
     <div class="row q-mb-md">
-      <q-btn color="primary" icon="eva-plus-outline" label="Create" @click="OnCreate" />
+      <q-btn color="primary" icon="eva-plus-circle-outline" label="Create" @click="OnCreate" />
     </div>
     <TableDetailComponent></TableDetailComponent>
     <!-- end content -->
