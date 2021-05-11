@@ -1,7 +1,7 @@
 import { ref, reactive } from 'vue';
 import { api } from 'boot/axios';
 import helperUse from '../helper';
-import groupsUse from './groups';
+import groupsUse from './state';
 import qTableUse from './tableDetail';
 
 const { NotifySucceed, NotifyFail } = helperUse;
