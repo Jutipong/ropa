@@ -6,6 +6,7 @@ const routes = [
       { path: '', component: () => import('src/pages/Question.vue') },
       { path: 'Groups', component: () => import('src/pages/MsGroup.vue') },
       { path: 'Question', component: () => import('src/pages/MsQuestion.vue') },
+      { path: 'Manage', component: () => import('src/pages/Manage.vue') },
     ],
   },
 

@@ -99,7 +99,7 @@ export default {
     const menus = reactive([
       {
         label: 'Quiz Test',
-        icon: 'eva-book-open-outline',
+        icon: 'eva-award-outline',
         link: '/',
       },
       {
@@ -111,6 +111,11 @@ export default {
         label: 'Master Question',
         icon: 'eva-question-mark-outline',
         link: '/question',
+      },
+      {
+        label: 'Manage',
+        icon: 'eva-settings-outline',
+        link: '/manage',
       },
     ]);
 
