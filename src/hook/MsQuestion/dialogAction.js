@@ -1,7 +1,8 @@
 import { ref, reactive } from 'vue';
 import { api } from 'boot/axios';
+
 import helperUse from '../helper';
-import groupsUse from './groups';
+import groupsUse from './state';
 import qTableUse from './tableDetail';
 
 const { NotifySucceed, NotifyFail } = helperUse;
@@ -9,7 +10,7 @@ const { OnRequest, pagination } = qTableUse;
 const { loading } = groupsUse;
 const isShowDialog = ref(false);
 const msGroupModel = {
-  IdGroup: null,
+  IdQuestion: null,
   Name: null,
   IsActive: true,
   CreateBy: null,
@@ -25,7 +26,7 @@ const ClearMsGroup = () => {
 const Action = async (req, action) => {
   loading.value = true;
   await api
-    .post(`MsGroup/${action}`, req)
+    .post(`MsQuestion/${action}`, req)
     .then((res) => {
       res.data.Success
         ? NotifySucceed(`${action}: ${res.data.Message}`)

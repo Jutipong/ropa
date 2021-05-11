@@ -1,12 +1,14 @@
 import { ref } from 'vue';
 import { date } from 'quasar';
-import groupsUse from './groups';
+import { api } from 'boot/axios';
+import { Notify } from 'quasar';
+import groupsUse from './state';
 
-const { loading, GetGroups } = groupsUse;
+const { loading } = groupsUse;
 const columns = [
   { name: 'edit', field: '', label: 'Edit', align: 'center' },
   { name: 'delete', field: '', label: 'Delete', align: 'center' },
-  { name: 'Name', field: 'Name', label: 'Name', align: 'center' },
+  { name: 'Name', field: 'Name', label: 'Name', align: 'center', sortable: true },
   {
     name: 'CreateDate',
     label: 'CreateDate',
@@ -64,6 +66,27 @@ const OnRequest = async (props) => {
   }
 
   loading.value = false;
+};
+
+const GetGroups = async (req) => {
+  let totalRows = 0;
+  let datas = [];
+  await api
+    .post(`MsQuestion/Inquiry`, req)
+    .then((res) => {
+      datas = res.data.Datas;
+      totalRows = res.data.Total;
+    })
+    .catch((err) => {
+      loading.value = false;
+      Notify.create({
+        color: 'negative',
+        message: err.message,
+        icon: 'report_problem',
+      });
+    });
+
+  return { datas, totalRows };
 };
 
 export default {

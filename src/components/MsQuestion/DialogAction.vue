@@ -8,9 +8,10 @@
           </div>
           <q-form @submit="OnAction" class="q-gutter-md">
             <q-input
-              autofocus
               v-model="msGroup.Name"
-              label="Name *"
+              filled
+              type="textarea"
+              :disable="loading"
               :rules="[(val) => (val && val.length > 0) || 'Please type something']"
             />
             <div align="right" class="text-primary">
@@ -26,18 +27,18 @@
 
 <script>
 import { computed, watch } from 'vue';
-import dialogActionUse from '../../hook/MsGroup/dialogAction';
-import groupsUse from '../../hook/MsGroup/groups';
+import dialogActionUse from '../../hook/MsQuestion/dialogAction';
+import groupsUse from '../../hook/MsQuestion/state';
 export default {
   setup() {
     const { loading } = groupsUse;
     const { Action, ClearMsGroup, isShowDialog, msGroup } = dialogActionUse;
     const labelAction = computed(() => {
-      return msGroup.IdGroup === null ? 'Create' : 'Update';
+      return msGroup.IdQuestion === null ? 'Create' : 'Update';
     });
 
     const OnAction = async () => {
-      const action = msGroup.IdGroup === null ? 'Create' : 'Update';
+      const action = msGroup.IdQuestion === null ? 'Create' : 'Update';
       await Action(msGroup, action);
     };
 
