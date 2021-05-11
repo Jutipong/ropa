@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { date } from 'quasar';
 import { api } from 'boot/axios';
 import { Notify } from 'quasar';
-import groupsUse from './groups';
+import groupsUse from './state';
 
 const { loading } = groupsUse;
 const columns = [
