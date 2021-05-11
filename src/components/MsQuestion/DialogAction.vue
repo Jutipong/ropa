@@ -8,6 +8,7 @@
           </div>
           <q-form @submit="OnAction" class="q-gutter-md">
             <q-input
+              autofocus
               v-model="msGroup.Name"
               filled
               type="textarea"
