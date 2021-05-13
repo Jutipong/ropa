@@ -10,34 +10,54 @@
       @filter="filterFn"
       style="width: 350px"
       label-color="primary"
-      v-model="model"
+      :loading="loading"
+      v-model="IdGroup"
     >
       <template v-slot:append>
         <q-icon name="eva-cube-outline" color="primary" />
       </template>
     </q-select>
   </div>
-
-  <draggable
-    class="list-group"
-    tag="ul"
-    :list="list"
-    v-bind="dragOptions"
-    @start="isDragging = true"
-    @end="isDragging = false"
-  >
-    <q-separator />
-    <transition-group type="transition" name="flip-list">
-      <q-list class="list-group-item" v-for="(item, index) in list" :key="item.name">
-        <q-item clickable v-ripple>
-          <q-item-section>
-            <b>ลำดับที่ {{ index + 1 }}</b>
-            <div class="q-ml-md">คำถาม: {{ item.name }}</div>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </transition-group>
-  </draggable>
+  <div v-if="loading">
+    <div class="row q-ma-lg justify-center">
+      <q-spinner-puff color="primary" size="lg" />
+      <div class="q-pt-sm q-ml-sm text-primary">กำลังโหลดข้อมูล</div>
+    </div>
+  </div>
+  <div v-else>
+    <draggable
+      class="list-group"
+      tag="ul"
+      :list="list"
+      v-bind="dragOptions"
+      @start="isDragging = true"
+      @end="isDragging = false"
+    >
+      <transition-group type="transition" name="flip-list">
+        <q-list
+          class="list-group-item"
+          v-for="(item, index) in list"
+          :key="item.IdQuestion + item.Name"
+        >
+          <q-item clickable v-ripple :active="true">
+            <q-item-section>
+              <b style="color: gray">ลำดับที่ {{ index + 1 }}</b>
+              <div class="q-ml-md" style="color: black">คำถาม: {{ item.Name }}</div>
+            </q-item-section>
+            <q-item-section avatar>
+              <q-avatar rounded>
+                <q-btn type="button" flat color="negative" icon="eva-trash-2-outline">
+                  <template v-slot>
+                    <q-tooltip>Delete</q-tooltip>
+                  </template>
+                </q-btn>
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </transition-group>
+    </draggable>
+  </div>
 </template>
 
 <script>
@@ -51,18 +71,10 @@ export default {
     draggable: VueDraggableNext,
   },
   setup() {
-    const { msGroups } = stateUse;
-    const { GetGroupsAll } = questionSortUse;
+    const { loading, msGroups, msQuestions } = stateUse;
+    const { GetGroupsAll, GetQuestionsAll } = questionSortUse;
 
-    const list = reactive([
-      { order: 1, name: 'name1' },
-      { order: 2, name: 'name2' },
-      { order: 3, name: 'name3' },
-      { order: 4, name: 'name4' },
-      { order: 5, name: 'name5' },
-      { order: 6, name: 'name6' },
-    ]);
-
+    const list = ref([]);
     const dragOptions = computed(() => {
       return {
         animation: 0,
@@ -72,16 +84,13 @@ export default {
       };
     });
 
-    watch(list, (item) => {
-      console.log('kdfjlsjfdls');
-      item.forEach((item, index) => {
-        item.order = index + 1;
-      });
-    });
+    // watch(list, (item) => {
+    //   item.forEach((item, index) => {
+    //     item.order = index + 1;
+    //   });
+    // });
 
-    const model = ref(null);
-    // const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
-    // const filterOptions = ref(stringOptions);
+    const IdGroup = ref(null);
     const filterOptions = ref([]);
     const filterFn = (val, update) => {
       update(() => {
@@ -89,18 +98,20 @@ export default {
           filterOptions.value = msGroups;
         } else {
           const needle = val.toLowerCase();
-          filterOptions.value = msGroups.filter((v) => v.toLowerCase().indexOf(needle) > -1);
+          filterOptions.value = msGroups.filter((v) => v.label.toLowerCase().indexOf(needle) > -1);
         }
       });
     };
 
     onMounted(async () => {
+      //master group
       await GetGroupsAll();
-      debugger;
       filterOptions.val = msGroups;
+      //master question
+      await GetQuestionsAll();
+      list.value = msQuestions;
     });
-
-    return { list, dragOptions, filterFn, filterOptions, model };
+    return { loading, list, dragOptions, filterFn, filterOptions, IdGroup };
   },
 };
 </script>
@@ -114,7 +125,7 @@ export default {
 }
 .ghost {
   opacity: 0.5;
-  background: #a0c8db;
+  background: #4ec1f7;
 }
 .list-group-item {
   border-bottom: 0.5px solid rgb(226, 226, 226);

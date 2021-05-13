@@ -10,13 +10,13 @@ const GetGroupsAll = async () => {
   await api
     .post(`MsGroup/GetAll`)
     .then((res) => {
-      res.data.Success ? NotifySucceed(`${res.data.Message}`) : NotifyFail(`${res.data.Message}`);
+      !res.data.Success && NotifyFail(`${res.data.Message}`);
       Object.assign(msGroups, res.data.Datas);
       loading.value = false;
     })
     .catch((err) => {
       loading.value = false;
-      NotifyFail(err.message);
+      NotifyFail(`GetGroupsAll :${err.message}`);
     });
 };
 const GetQuestionsAll = async () => {
@@ -24,12 +24,13 @@ const GetQuestionsAll = async () => {
   await api
     .post(`MsQuestion/GetAll`)
     .then((res) => {
-      res.data.Success ? NotifySucceed(`${res.data.Message}`) : NotifyFail(`${res.data.Message}`);
+      !res.data.Success && NotifyFail(`${res.data.Message}`);
+      Object.assign(msQuestions, res.data.Datas);
       loading.value = false;
     })
     .catch((err) => {
       loading.value = false;
-      NotifyFail(err.message);
+      NotifyFail(`GetQuestionsAll :${err.message}`);
     });
 };
 

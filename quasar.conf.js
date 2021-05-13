@@ -8,7 +8,7 @@
 
 const { configure } = require('quasar/wrappers');
 let API_HTTP = 'https://localhost:44350/';
-let API_HTTPS = 'https://localhost:5001/';
+let API_HTTPS = 'https://localhost:44350/';
 
 https: module.exports = configure(function (ctx) {
   return {
