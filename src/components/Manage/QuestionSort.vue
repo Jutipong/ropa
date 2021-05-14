@@ -1,7 +1,23 @@
 <template>
   <div class="row q-pb-lg">
+    <div class="q-mt-md">
+      <q-btn
+        v-if="!isAddQuestion"
+        color="primary"
+        icon="eva-plus-circle-outline"
+        label="Create"
+        @click="() => (isAddQuestion = true)"
+      />
+      <q-btn
+        v-if="isAddQuestion"
+        icon="eva-arrow-back-outline"
+        label="Back"
+        @click="() => (isAddQuestion = false)"
+      />
+    </div>
     <q-space />
     <q-select
+      v-if="!isAddQuestion"
       label="Group"
       use-input
       clearable
@@ -18,6 +34,7 @@
       </template>
     </q-select>
   </div>
+
   <div v-if="loading">
     <div class="row q-ma-lg justify-center">
       <q-spinner-puff color="primary" size="lg" />
@@ -25,15 +42,16 @@
     </div>
   </div>
   <div v-else>
-    <draggable
-      class="list-group"
-      tag="ul"
-      :list="list"
-      v-bind="dragOptions"
-      @start="isDragging = true"
-      @end="isDragging = false"
-    >
-      <transition-group type="transition" name="flip-list">
+    <div v-if="isAddQuestion">add</div>
+    <div v-else>
+      <draggable
+        class="list-group"
+        tag="ul"
+        :list="list"
+        v-bind="dragOptions"
+        @start="isDragging = true"
+        @end="isDragging = false"
+      >
         <q-list
           class="list-group-item"
           v-for="(item, index) in list"
@@ -55,8 +73,8 @@
             </q-item-section>
           </q-item>
         </q-list>
-      </transition-group>
-    </draggable>
+      </draggable>
+    </div>
   </div>
 </template>
 
@@ -73,6 +91,7 @@ export default {
   setup() {
     const { loading, msGroups, msQuestions } = stateUse;
     const { GetGroupsAll, GetQuestionsAll } = questionSortUse;
+    const isAddQuestion = ref(false);
 
     const list = ref([]);
     const dragOptions = computed(() => {
@@ -111,7 +130,7 @@ export default {
       await GetQuestionsAll();
       list.value = msQuestions;
     });
-    return { loading, list, dragOptions, filterFn, filterOptions, IdGroup };
+    return { loading, list, dragOptions, filterFn, filterOptions, IdGroup, isAddQuestion };
   },
 };
 </script>
