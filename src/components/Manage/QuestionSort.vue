@@ -109,15 +109,18 @@ export default {
 
     watch(IdGroupSelected, async () => {
       if (IdGroupSelected.value) {
-        let result = await GetQuestionsById(IdGroupSelected);
-        list.value = result;
+        list.value = await GetQuestionsById(IdGroupSelected);
       } else {
         list.value = [];
       }
     });
 
     onMounted(async () => {
-      IdGroupSelected.value = null;
+      if (IdGroupSelected.value === null) {
+        IdGroupSelected.value = null;
+      }else{
+        list.value = await GetQuestionsById(IdGroupSelected);
+      }
     });
 
     return { loading, list, dragOptions, filterFn, filterOptions, IdGroupSelected, isAddQuestion };
