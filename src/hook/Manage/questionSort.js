@@ -19,6 +19,7 @@ const GetGroupsAll = async () => {
       NotifyFail(`GetGroupsAll :${err.message}`);
     });
 };
+
 const GetQuestionsAll = async () => {
   loading.value = true;
   await api
@@ -34,7 +35,25 @@ const GetQuestionsAll = async () => {
     });
 };
 
+const GetQuestionsById = async (IdGroup) => {
+  loading.value = true;
+  let result = [];
+  await api
+    .get(`MsQuestion/GetQuestionById?${IdGroup.value.value}`)
+    .then((res) => {
+      !res.data.Success && NotifyFail(`${res.data.Message}`);
+      loading.value = false;
+      result = res.data.Datas || [];
+    })
+    .catch((err) => {
+      loading.value = false;
+      NotifyFail(`GetQuestionsAll :${err.message}`);
+    });
+  return result;
+};
+
 export default {
   GetGroupsAll,
   GetQuestionsAll,
+  GetQuestionsById,
 };
