@@ -1,18 +1,11 @@
 <template>
   <div class="row q-pb-lg">
-    <div class="q-mt-md">
+    <div class="q-mt-md" v-if="!isAddQuestion && IdGroupSelected">
       <q-btn
-        v-if="!isAddQuestion"
         color="primary"
         icon="eva-plus-circle-outline"
         label="Create"
         @click="() => (isAddQuestion = true)"
-      />
-      <q-btn
-        v-if="isAddQuestion"
-        icon="eva-arrow-back-outline"
-        label="Back"
-        @click="() => (isAddQuestion = false)"
       />
     </div>
     <q-space />
@@ -27,7 +20,7 @@
       style="width: 350px"
       label-color="primary"
       :loading="loading"
-      v-model="IdGroup"
+      v-model="IdGroupSelected"
     >
       <template v-slot:append>
         <q-icon name="eva-cube-outline" color="primary" />
@@ -91,7 +84,7 @@ export default {
   setup() {
     const { loading, msGroups, msQuestions } = stateUse;
     const { GetGroupsAll, GetQuestionsAll } = questionSortUse;
-    const isAddQuestion = ref(false);
+    const { isAddQuestion, IdGroupSelected } = stateUse;
 
     const list = ref([]);
     const dragOptions = computed(() => {
@@ -109,7 +102,6 @@ export default {
     //   });
     // });
 
-    const IdGroup = ref(null);
     const filterOptions = ref([]);
     const filterFn = (val, update) => {
       update(() => {
@@ -123,14 +115,10 @@ export default {
     };
 
     onMounted(async () => {
-      //master group
-      await GetGroupsAll();
-      filterOptions.val = msGroups;
-      //master question
       await GetQuestionsAll();
       list.value = msQuestions;
     });
-    return { loading, list, dragOptions, filterFn, filterOptions, IdGroup, isAddQuestion };
+    return { loading, list, dragOptions, filterFn, filterOptions, IdGroupSelected, isAddQuestion };
   },
 };
 </script>
