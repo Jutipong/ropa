@@ -12,33 +12,56 @@
       >
         <q-tab name="sort" label="Sort" />
         <q-tab name="reference" label="Reference" />
-        <!-- <q-tab name="movies" label="Movies" /> -->
       </q-tabs>
 
       <q-separator />
 
       <q-tab-panels v-model="tab" animated>
-        <q-tab-panel name="sort">
-          <QuestionSortComponent></QuestionSortComponent>
+        <q-tab-panel
+          :style="{ padding: isAddQuestion ? '2px 0px 0px 0px' : '0px 16px 16px 16px' }"
+          name="sort"
+        >
+          <div v-if="!isAddQuestion">
+            <QuestionSortComponent></QuestionSortComponent>
+          </div>
+          <div v-else>
+            <AddQuestionComponent></AddQuestionComponent>
+          </div>
         </q-tab-panel>
-        <q-tab-panel name="reference">
-          <div class="text-h6">reference</div>
-        </q-tab-panel>
+        <q-tab-panel name="reference"> </q-tab-panel>
       </q-tab-panels>
     </q-card>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import QuestionSortComponent from '../components/Manage/QuestionSort';
+import AddQuestionComponent from '../components/Manage/AddQuestion';
+import stateUse from '../hook/Manage/state';
+import questionSortUse from '../hook/Manage/questionSort'
+
 export default {
   components: {
     QuestionSortComponent,
+    AddQuestionComponent,
   },
   setup() {
+    const { isAddQuestion } = stateUse;
+    const { GetGroupsAll } = questionSortUse;
     const tab = ref('sort');
-    return { tab };
+
+    onMounted(async () => {
+      await GetGroupsAll();
+    });
+
+    return { tab, isAddQuestion };
   },
 };
 </script>
+
+<!-- <style scoped vars="{ isAddQuestion }">
+.q-tab-panel {
+    padding: 0px;
+}
+</style> -->
