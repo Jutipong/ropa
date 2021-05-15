@@ -1,12 +1,7 @@
 <template>
   <div class="row q-pb-lg">
     <div class="q-mt-md" v-if="!isAddQuestion && IdGroupSelected">
-      <q-btn
-        color="primary"
-        icon="eva-plus-circle-outline"
-        label="Create"
-        @click="() => (isAddQuestion = true)"
-      />
+      <q-btn color="primary" icon="eva-plus-circle-outline" label="Create" @click="() => (isAddQuestion = true)" />
     </div>
     <q-space />
     <q-select
@@ -37,19 +32,17 @@
   <div v-else>
     <div v-if="isAddQuestion">add</div>
     <div v-else>
-      <draggable
-        class="list-group"
-        tag="ul"
-        :list="list"
-        v-bind="dragOptions"
-        @start="isDragging = true"
-        @end="isDragging = false"
-      >
-        <q-list
-          class="list-group-item"
-          v-for="(item, index) in list"
-          :key="item.IdQuestion + item.Name"
-        >
+      <div v-if="list.length === 0">
+        <div class="row q-ma-lg justify-center">
+          <!-- <q-spinner-puff color="primary" size="lg" /> -->
+          <div class="text-negative">
+            <q-icon size="md" name="eva-alert-circle-outline"></q-icon>
+            ไม่พบข้อมูล
+          </div>
+        </div>
+      </div>
+      <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions">
+        <q-list class="list-group-item" v-for="(item, index) in list" :key="item.IdQuestion + item.Name">
           <q-item clickable v-ripple :active="true">
             <q-item-section>
               <b style="color: gray">ลำดับที่ {{ index + 1 }}</b>
@@ -72,7 +65,7 @@
 </template>
 
 <script>
-import { reactive, computed, watch, ref, onMounted } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
 import stateUse from '../../hook/Manage/state';
 import questionSortUse from '../../hook/Manage/questionSort';
@@ -83,7 +76,7 @@ export default {
   },
   setup() {
     const { loading, msGroups, msQuestions } = stateUse;
-    const { GetGroupsAll, GetQuestionsAll } = questionSortUse;
+    const { GetQuestionsById } = questionSortUse;
     const { isAddQuestion, IdGroupSelected } = stateUse;
 
     const list = ref([]);
@@ -114,10 +107,19 @@ export default {
       });
     };
 
-    onMounted(async () => {
-      await GetQuestionsAll();
-      list.value = msQuestions;
+    watch(IdGroupSelected, async () => {
+      if (IdGroupSelected.value) {
+        let result = await GetQuestionsById(IdGroupSelected);
+        list.value = result;
+      } else {
+        list.value = [];
+      }
     });
+
+    onMounted(async () => {
+      IdGroupSelected.value = null;
+    });
+
     return { loading, list, dragOptions, filterFn, filterOptions, IdGroupSelected, isAddQuestion };
   },
 };
