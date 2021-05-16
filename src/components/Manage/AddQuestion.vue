@@ -1,29 +1,31 @@
 <template>
-  <!-- <q-table
-      title="Treats"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      selection="multiple"
-      v-model:selected="selected"
-      :hide-bottom="hideBottom"
-      :hide-selected-banner="hideSelectedBanner"
-      :hide-no-data="hideNoData"
-      :hide-pagination="hidePagination"
-    /> -->
-
   <div class="full-width">
     <q-table
-      title="Treats"
+      color="primary"
       :rows="rows"
       :columns="columns"
+      :hide-pagination="true"
+      :rows-per-page-options="[0]"
+      :filter="filter"
       row-key="IdQuestion"
       selection="multiple"
       v-model:selected="selected"
     >
-      <template v-slot:top>
-        <q-btn icon="eva-arrow-back-outline" label="Back" @click="() => (isAddQuestion = false)" />
+      <template v-slot:top="props">
+        <q-btn flat round :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen">
+          <template v-slot>
+            <q-tooltip>{{ props.inFullscreen ? 'fullscreen exit' : 'fullscreen' }}</q-tooltip>
+          </template>
+        </q-btn>
+        <q-separator vertical spaced />
+        <q-btn class="q-mr-md" icon="eva-arrow-back-outline" label="Back" @click="() => (isAddQuestion = false)" />
+        <q-btn color="secondary" icon="eva-save-outline" label="Save" />
         <q-space />
+        <q-input style="width: 350px" clearable dense bordered placeholder="ค้นหา" :disable="loading" v-model="filter">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
       </template>
     </q-table>
   </div>
@@ -33,19 +35,28 @@
 import { ref } from 'vue';
 import stateUse from '../../hook/Manage/state';
 export default {
-  setup() {
-    const columns = [{ name: 'Name', field: 'Name', label: 'Name', align: 'left' }];
-    const { isAddQuestion, msQuestions } = stateUse;
+  props: {
+    questonList: {
+      type: Array,
+      default: [],
+      required: false,
+    },
+  },
+  setup(props) {
+    const { questonList } = props;
+    const columns = [{ name: 'Name', field: 'Name', label: '', align: 'left' }];
+    const { loading, isAddQuestion, msQuestions } = stateUse;
     const rows = ref([...msQuestions]);
     const selected = ref([]);
+    const filter = ref(null);
 
-    return { columns, rows, selected, isAddQuestion };
+    return { filter, loading, columns, rows, selected, isAddQuestion };
   },
 };
 </script>
 
 <style scoped>
 .q-tab-panel {
-    padding: 20px;
+  padding: 20px;
 }
 </style>

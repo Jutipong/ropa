@@ -39,7 +39,7 @@ const GetQuestionsById = async (IdGroup) => {
   loading.value = true;
   let result = [];
   await api
-    .get(`MsQuestion/GetQuestionById?${IdGroup.value.value}`)
+    .get(`MsQuestion/GetQuestionById?IdGroup=${IdGroup.value.value}`)
     .then((res) => {
       !res.data.Success && NotifyFail(`${res.data.Message}`);
       loading.value = false;

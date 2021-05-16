@@ -1,6 +1,6 @@
 <template>
   <div class="row q-pb-lg">
-    <div class="q-mt-md" v-if="!isAddQuestion && IdGroupSelected">
+    <div class="q-mt-md" v-if="!isAddQuestion && groupSelected">
       <q-btn color="primary" icon="eva-plus-circle-outline" label="Create" @click="() => (isAddQuestion = true)" />
     </div>
     <q-space />
@@ -15,7 +15,7 @@
       style="width: 350px"
       label-color="primary"
       :loading="loading"
-      v-model="IdGroupSelected"
+      v-model="groupSelected"
     >
       <template v-slot:append>
         <q-icon name="eva-cube-outline" color="primary" />
@@ -77,7 +77,7 @@ export default {
   setup() {
     const { loading, msGroups, msQuestions } = stateUse;
     const { GetQuestionsById } = questionSortUse;
-    const { isAddQuestion, IdGroupSelected } = stateUse;
+    const { isAddQuestion, groupSelected } = stateUse;
 
     const list = ref([]);
     const dragOptions = computed(() => {
@@ -107,23 +107,23 @@ export default {
       });
     };
 
-    watch(IdGroupSelected, async () => {
-      if (IdGroupSelected.value) {
-        list.value = await GetQuestionsById(IdGroupSelected);
+    watch(groupSelected, async () => {
+      if (groupSelected.value) {
+        list.value = await GetQuestionsById(groupSelected);
       } else {
         list.value = [];
       }
     });
 
     onMounted(async () => {
-      if (IdGroupSelected.value === null) {
-        IdGroupSelected.value = null;
+      if (groupSelected.value === null) {
+        groupSelected.value = null;
       }else{
-        list.value = await GetQuestionsById(IdGroupSelected);
+        list.value = await GetQuestionsById(groupSelected);
       }
     });
 
-    return { loading, list, dragOptions, filterFn, filterOptions, IdGroupSelected, isAddQuestion };
+    return { loading, list, dragOptions, filterFn, filterOptions, groupSelected, isAddQuestion };
   },
 };
 </script>
