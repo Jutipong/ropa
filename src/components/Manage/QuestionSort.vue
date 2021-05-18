@@ -1,7 +1,23 @@
 <template>
   <div class="row q-pb-lg">
-    <div class="q-mt-md" v-if="!isAddQuestion && IdGroupSelected">
-      <q-btn color="primary" icon="eva-plus-circle-outline" label="Create" @click="() => (isAddQuestion = true)" />
+    <div
+      class="q-mt-md"
+      v-if="!isAddQuestion && groupSelected"
+    >
+      <q-btn
+        class="q-mr-md"
+        color="primary"
+        icon="eva-plus-circle-outline"
+        label="Add Question"
+        @click="OnAddQuestion"
+      />
+      <q-btn
+        color="secondary"
+        icon="eva-save-outline"
+        label="Save Sort"
+        :disable="questionlist.length === 0"
+        @click="OnActionSort"
+      />
     </div>
     <q-space />
     <q-select
@@ -15,42 +31,71 @@
       style="width: 350px"
       label-color="primary"
       :loading="loading"
-      v-model="IdGroupSelected"
+      v-model="groupSelected"
     >
       <template v-slot:append>
-        <q-icon name="eva-cube-outline" color="primary" />
+        <q-icon
+          name="eva-cube-outline"
+          color="primary"
+        />
       </template>
     </q-select>
   </div>
 
   <div v-if="loading">
     <div class="row q-ma-lg justify-center">
-      <q-spinner-puff color="primary" size="lg" />
+      <q-spinner-puff
+        color="primary"
+        size="lg"
+      />
       <div class="q-pt-sm q-ml-sm text-primary">กำลังโหลดข้อมูล</div>
     </div>
   </div>
   <div v-else>
     <div v-if="isAddQuestion">add</div>
     <div v-else>
-      <div v-if="list.length === 0">
+      <div v-if="questionlist.length === 0">
         <div class="row q-ma-lg justify-center">
           <!-- <q-spinner-puff color="primary" size="lg" /> -->
           <div class="text-negative">
-            <q-icon size="md" name="eva-alert-circle-outline"></q-icon>
-            ไม่พบข้อมูล
+            <q-icon
+              size="md"
+              name="eva-alert-circle-outline"
+            ></q-icon>ไม่พบข้อมูล
           </div>
         </div>
       </div>
-      <draggable class="list-group" tag="ul" :list="list" v-bind="dragOptions">
-        <q-list class="list-group-item" v-for="(item, index) in list" :key="item.IdQuestion + item.Name">
-          <q-item clickable v-ripple :active="true">
+      <draggable
+        class="list-group"
+        tag="ul"
+        :list="questionlist"
+        v-bind="dragOptions"
+      >
+        <q-list
+          class="list-group-item"
+          v-for="(item, index) in questionlist"
+          :key="item.IdQuestion + item.Name"
+        >
+          <q-item
+            clickable
+            v-ripple
+            :active="true"
+          >
             <q-item-section>
               <b style="color: gray">ลำดับที่ {{ index + 1 }}</b>
-              <div class="q-ml-md" style="color: black">คำถาม: {{ item.Name }}</div>
+              <div
+                class="q-ml-md"
+                style="color: black"
+              >คำถาม: {{ item.Name }}</div>
             </q-item-section>
             <q-item-section avatar>
               <q-avatar rounded>
-                <q-btn type="button" flat color="negative" icon="eva-trash-2-outline">
+                <q-btn
+                  type="button"
+                  flat
+                  color="negative"
+                  icon="eva-trash-2-outline"
+                >
                   <template v-slot>
                     <q-tooltip>Delete</q-tooltip>
                   </template>
@@ -75,21 +120,30 @@ export default {
     draggable: VueDraggableNext,
   },
   setup() {
-    const { loading, msGroups, msQuestions } = stateUse;
-    const { GetQuestionsById } = questionSortUse;
-    const { isAddQuestion, IdGroupSelected } = stateUse;
+    const { loading, msGroups, list } = stateUse;
+    const { GetQuestionsById, ActionSort } = questionSortUse;
+    const { isAddQuestion, groupSelected } = stateUse;
 
-    const list = ref([]);
+    const questionlist = ref([]);
     const dragOptions = computed(() => {
       return {
         animation: 0,
         group: 'description',
-        // disabled: false,
         ghostClass: 'ghost',
       };
     });
 
-    // watch(list, (item) => {
+    const OnActionSort = async () => {
+      await ActionSort(list);
+    };
+
+    const OnAddQuestion = async () => {
+      debugger;
+      list.value = questionlist.value;
+      isAddQuestion.value = true;
+    };
+
+    // watch(questionlist, (item) => {
     //   item.forEach((item, index) => {
     //     item.order = index + 1;
     //   });
@@ -107,23 +161,33 @@ export default {
       });
     };
 
-    watch(IdGroupSelected, async () => {
-      if (IdGroupSelected.value) {
-        list.value = await GetQuestionsById(IdGroupSelected);
+    watch(groupSelected, async () => {
+      if (groupSelected.value) {
+        questionlist.value = await GetQuestionsById(groupSelected);
       } else {
-        list.value = [];
+        questionlist.value = [];
       }
     });
 
     onMounted(async () => {
-      if (IdGroupSelected.value === null) {
-        IdGroupSelected.value = null;
-      }else{
-        list.value = await GetQuestionsById(IdGroupSelected);
+      if (groupSelected.value === null) {
+        groupSelected.value = null;
+      } else {
+        questionlist.value = await GetQuestionsById(groupSelected);
       }
     });
 
-    return { loading, list, dragOptions, filterFn, filterOptions, IdGroupSelected, isAddQuestion };
+    return {
+      loading,
+      questionlist,
+      dragOptions,
+      filterFn,
+      filterOptions,
+      groupSelected,
+      isAddQuestion,
+      OnActionSort,
+      OnAddQuestion,
+    };
   },
 };
 </script>

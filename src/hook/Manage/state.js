@@ -4,12 +4,14 @@ const msGroups = reactive([]);
 const msQuestions = reactive([]);
 const loading = ref(false);
 const isAddQuestion = ref(false);
-const IdGroupSelected = ref(null);
+const groupSelected = ref(null);
+const list = ref([]);
 
 export default {
   loading,
   msGroups,
   msQuestions,
   isAddQuestion,
-  IdGroupSelected,
+  groupSelected,
+  list
 };
