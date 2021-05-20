@@ -134,19 +134,13 @@ export default {
     });
 
     const OnActionSort = async () => {
-      await ActionSort(list);
+      await ActionSort(questionlist);
     };
 
     const OnAddQuestion = async () => {
       list.value = questionlist.value;
       isAddQuestion.value = true;
     };
-
-    // watch(questionlist, (item) => {
-    //   item.forEach((item, index) => {
-    //     item.order = index + 1;
-    //   });
-    // });
 
     const filterOptions = ref([]);
     const filterFn = (val, update) => {

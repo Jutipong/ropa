@@ -55,7 +55,6 @@
       </template>
     </q-table>
   </div>
-  {{ selected}}
 </template>
 
 <script>
@@ -75,7 +74,6 @@ export default {
 
     const OnAction = async () => {
       let res = await Action(selected);
-      debugger;
       if (res) {
         isAddQuestion.value = false;
       }
