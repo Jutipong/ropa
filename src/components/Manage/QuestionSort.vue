@@ -138,7 +138,6 @@ export default {
     };
 
     const OnAddQuestion = async () => {
-      debugger;
       list.value = questionlist.value;
       isAddQuestion.value = true;
     };
@@ -178,6 +177,7 @@ export default {
     });
 
     return {
+      list,
       loading,
       questionlist,
       dragOptions,
