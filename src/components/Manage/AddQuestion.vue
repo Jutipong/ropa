@@ -55,11 +55,10 @@
       </template>
     </q-table>
   </div>
-  {{ selected}}
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, toRefs } from 'vue';
 import stateUse from '../../hook/Manage/state';
 import addQuestionUse from '../../hook/Manage/addQuestion';
 
@@ -75,7 +74,6 @@ export default {
 
     const OnAction = async () => {
       let res = await Action(selected);
-      debugger;
       if (res) {
         isAddQuestion.value = false;
       }
@@ -87,19 +85,19 @@ export default {
     };
 
     onMounted(() => {
-      let temp = Object.assign([], [...msQuestions]);
+      let questionlist = msQuestions.map((r) => ({ IdQuestion: r.IdQuestion, Name: r.Name }));
       list.value.forEach((item) => {
-        let obj = temp.find((r) => r.IdQuestion == item.IdQuestion);
+        let obj = questionlist.find((r) => r.IdQuestion == item.IdQuestion);
         if (obj != null) {
           obj.IdConfigGroupQuestion = item.IdConfigGroupQuestion;
           obj.IdGroup = item.IdGroup;
           obj.IsActive = item.IsActive;
-          obj.Create = item.Create;
+          obj.CreateDate = item.CreateDate;
           obj.CreateBy = item.CreateBy;
           obj.Order = item.Order;
         }
       });
-      rows.value = temp;
+      rows.value = questionlist;
       selected.value = list.value;
     });
 
