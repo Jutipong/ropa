@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, toRefs } from 'vue';
 import stateUse from '../../hook/Manage/state';
 import addQuestionUse from '../../hook/Manage/addQuestion';
 
@@ -87,9 +87,9 @@ export default {
     };
 
     onMounted(() => {
-      let temp = Object.assign([], [...msQuestions]);
+      let questionlist = msQuestions.map((r) => ({ IdQuestion: r.IdQuestion, Name: r.Name }));
       list.value.forEach((item) => {
-        let obj = temp.find((r) => r.IdQuestion == item.IdQuestion);
+        let obj = questionlist.find((r) => r.IdQuestion == item.IdQuestion);
         if (obj != null) {
           obj.IdConfigGroupQuestion = item.IdConfigGroupQuestion;
           obj.IdGroup = item.IdGroup;
@@ -99,7 +99,7 @@ export default {
           obj.Order = item.Order;
         }
       });
-      rows.value = temp;
+      rows.value = questionlist;
       selected.value = list.value;
     });
 
