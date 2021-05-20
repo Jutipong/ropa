@@ -30,7 +30,7 @@
           class="q-mr-md"
           icon="eva-arrow-back-outline"
           label="Back"
-          @click="() => (isAddQuestion = false)"
+          @click="OnBack"
         />
         <q-btn
           color="secondary"
@@ -64,13 +64,12 @@ import stateUse from '../../hook/Manage/state';
 import addQuestionUse from '../../hook/Manage/addQuestion';
 
 export default {
-  setup(props) {
+  setup() {
     const { list, loading, isAddQuestion, msQuestions } = stateUse;
     const { Action } = addQuestionUse;
 
     const columns = [{ name: 'Name', field: 'Name', label: '', align: 'left' }];
-    debugger;
-    const rows = ref([...msQuestions]);
+    const rows = ref([]);
     const selected = ref([]);
     const filter = ref(null);
 
@@ -82,13 +81,29 @@ export default {
       }
     };
 
+    const OnBack = () => {
+      list.value = [];
+      isAddQuestion.value = false;
+    };
+
     onMounted(() => {
-      debugger;
-      let result = list.value.map((r) => ({ IdQuestion: r.IdQuestion, Name: r.Name }));
-      selected.value = result;
+      let temp = Object.assign([], [...msQuestions]);
+      list.value.forEach((item) => {
+        let obj = temp.find((r) => r.IdQuestion == item.IdQuestion);
+        if (obj != null) {
+          obj.IdConfigGroupQuestion = item.IdConfigGroupQuestion;
+          obj.IdGroup = item.IdGroup;
+          obj.IsActive = item.IsActive;
+          obj.Create = item.Create;
+          obj.CreateBy = item.CreateBy;
+          obj.Order = item.Order;
+        }
+      });
+      rows.value = temp;
+      selected.value = list.value;
     });
 
-    return { filter, loading, columns, rows, selected, isAddQuestion, OnAction };
+    return { filter, loading, columns, rows, selected, isAddQuestion, OnAction, OnBack };
   },
 };
 </script>
