@@ -92,7 +92,7 @@ export default {
           obj.IdConfigGroupQuestion = item.IdConfigGroupQuestion;
           obj.IdGroup = item.IdGroup;
           obj.IsActive = item.IsActive;
-          obj.Create = item.Create;
+          obj.CreateDate = item.CreateDate;
           obj.CreateBy = item.CreateBy;
           obj.Order = item.Order;
         }

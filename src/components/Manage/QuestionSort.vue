@@ -8,7 +8,7 @@
         class="q-mr-md"
         color="primary"
         icon="eva-plus-circle-outline"
-        label="Add Question"
+        label="Update Question"
         @click="OnAddQuestion"
       />
       <q-btn
